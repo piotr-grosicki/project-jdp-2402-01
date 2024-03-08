@@ -2,7 +2,10 @@ package com.kodilla.ecommercee.controller;
 
 
 import com.kodilla.ecommercee.domain.ProductDto;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,21 +20,21 @@ public class ProductController {
 
     @GetMapping(value = "{productId}")
     public ProductDto getProduct(@PathVariable int productId) {
-        return new ProductDto(1, "Pistachios", "200g bag", 38.99, 8);
+        return new ProductDto(1, "Pistachios", "200g bag",  BigDecimal.valueOf(38.99), 8);
     }
 
     @DeleteMapping
-    public void deleteProduct(int productId) {
+    public void deleteProduct(@RequestBody int productId) {
 
     }
 
     @PutMapping
-    public ProductDto  updateProduct(ProductDto  productDto) {
-        return new ProductDto(1, "Peanut Butter", "900g", 24.99, 7);
+    public ProductDto  updateProduct(@RequestBody ProductDto  productDto) {
+        return new ProductDto(1, "Peanut Butter", "900g",  BigDecimal.valueOf(24.99), 7);
     }
 
     @PostMapping
-    public void createProduct(ProductDto  productDto) {
+    public void createProduct(@RequestBody ProductDto  productDto) {
 
     }
 }
