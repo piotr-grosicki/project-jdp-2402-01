@@ -1,15 +1,17 @@
 package com.kodilla.ecommercee.domain;
 
-
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Setter
-@Getter
+
+@Data
 @AllArgsConstructor
 public class Group {
-    private long id;
+    private int id;
     private String name;
     private String description;
+
 }
+
+
+
