@@ -2,6 +2,7 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.OrderDto;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,34 +14,36 @@ import java.util.List;
 public class OrderController {
 
     private List<OrderDto> allOrdersTest = new ArrayList<>();
-    private OrderDto oneOrderTest = new OrderDto();
+    private OrderDto oneOrderTest = new OrderDto(111L, "order_number", 666L, new ArrayList<>());
 
     // GET
     @GetMapping
-    public List<OrderDto> getAllOrders() {
-        return allOrdersTest;
+    public ResponseEntity<List<OrderDto>> getAllOrders() {
+        return ResponseEntity.ok(allOrdersTest);
     }
 
     @GetMapping(value = "{orderId}")
-    public OrderDto getOrderById(@PathVariable Long orderId) {
-        return oneOrderTest;
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
+        return ResponseEntity.ok(oneOrderTest);
     }
 
     // POST
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public OrderDto createOrder(@RequestBody OrderDto orderDto) {
-        return new OrderDto();
+    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
+        return ResponseEntity.ok().build();
     }
 
     // PUT
     @PutMapping
     public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
-        return oneOrderTest = new OrderDto(111L, "order_number", 666L, new ArrayList<>());
+        oneOrderTest = new OrderDto(111L, "changed_number", 666L, new ArrayList<>());
+        return ResponseEntity.ok(oneOrderTest).getBody();
     }
 
     // DELETE
     @DeleteMapping(value = "{orderId}")
-    public void deleteOrder(@PathVariable Long orderId) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
         System.out.println("Order " + orderId + " has been deleted");
+        return ResponseEntity.ok().build();
     }
 }
