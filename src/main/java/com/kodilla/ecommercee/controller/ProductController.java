@@ -23,8 +23,8 @@ public class ProductController {
         return new ProductDto(1, "Pistachios", "200g bag",  BigDecimal.valueOf(38.99), 8);
     }
 
-    @DeleteMapping
-    public void deleteProduct(@RequestBody int productId) {
+    @DeleteMapping(value = "{productId}")
+    public void deleteProduct(@PathVariable int productId) {
 
     }
 
@@ -34,7 +34,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public void createProduct(@RequestBody ProductDto  productDto) {
+    public void createProduct(@PathVariable ProductDto  productDto) {
 
     }
 }
