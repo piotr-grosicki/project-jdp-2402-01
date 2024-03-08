@@ -1,6 +1,6 @@
 package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.OrderDtoTemporary;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,12 @@ public class CartController {
     }
     @DeleteMapping("/delete/{cartId}/{productId}")
     public void removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
-        System.out.println("Produkt " + productId + "z koszyka nr " + cartId " usuniety");
+        System.out.println("Produkt " + productId + "z koszyka nr " + cartId + " usuniety");
     }
+
+    //po stworzeniu wlasciwej klasie usunac klase OrderDtoTemporary i zastapic wlasciwa
     @PostMapping("/order/{cartId}")
-    public OrderDTO createOrderFromCart(@PathVariable int cartId){
-        return new OrderDTO(1, 1);
+    public OrderDtoTemporary createOrderFromCart(@PathVariable int cartId){
+        return new OrderDtoTemporary(1, 1);
     }
 }
