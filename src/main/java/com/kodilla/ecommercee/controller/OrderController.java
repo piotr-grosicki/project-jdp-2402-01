@@ -35,9 +35,9 @@ public class OrderController {
 
     // PUT
     @PutMapping
-    public OrderDto updateOrder(@RequestBody OrderDto orderDto) {
+    public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
         oneOrderTest = new OrderDto(111L, "changed_number", 666L, new ArrayList<>());
-        return ResponseEntity.ok(oneOrderTest).getBody();
+        return ResponseEntity.ok(oneOrderTest);
     }
 
     // DELETE
