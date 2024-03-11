@@ -11,6 +11,6 @@ import java.util.List;
 @AllArgsConstructor
 public class CartDto {
     private int id;
-    private int userId;
-    private List<Integer> productsIds;
+    private User user;
+    private List<Product> products;
 }

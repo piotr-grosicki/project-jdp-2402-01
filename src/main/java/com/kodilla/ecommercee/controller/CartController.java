@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.domain.OrderDtoTemporary;
+import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.User;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,13 +10,14 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
     private final List<CartDto> carts = new ArrayList<>();
+    private final User userTest = new User(1, "username", "password", false, "apiKey");
 
     @GetMapping("/{cartId}")
     public List<String> getCartById(@PathVariable int cartId) {
         List<String> productsName = new ArrayList<>();
         productsName.add("XXX");
         productsName.add("YYY");
-       return productsName;
+        return productsName;
 
     }
     @PostMapping()
@@ -24,16 +26,15 @@ public class CartController {
     }
     @PutMapping("/add/{cartId}/{productId}")
     public CartDto addProductToCart(@PathVariable int cartId, @PathVariable int productId){
-        return new CartDto(1,1,new ArrayList<>());
+        return new CartDto(1, userTest, new ArrayList<>());
     }
     @DeleteMapping("/delete/{cartId}/{productId}")
     public void removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
         System.out.println("Produkt " + productId + "z koszyka nr " + cartId + " usuniety");
     }
 
-    //po stworzeniu wlasciwej klasie usunac klase OrderDtoTemporary i zastapic wlasciwa
     @PostMapping("/order/{cartId}")
-    public OrderDtoTemporary createOrderFromCart(@PathVariable int cartId){
-        return new OrderDtoTemporary(1, 1);
+    public OrderDto createOrderFromCart(@PathVariable int cartId){
+        return new OrderDto(1L, "orderNumber", 1L, new ArrayList<>());
     }
 }
