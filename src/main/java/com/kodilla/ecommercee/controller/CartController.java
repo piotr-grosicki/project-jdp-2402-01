@@ -1,7 +1,10 @@
 package com.kodilla.ecommercee.controller;
+
 import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.domain.OrderDtoTemporary;
+import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.User;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +12,7 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
     private final List<CartDto> carts = new ArrayList<>();
+    private final User testUser = new User(1,"XXX", "YYY", false, "XYZ", new ArrayList<>());
 
     @GetMapping("/{cartId}")
     public List<String> getCartById(@PathVariable int cartId) {
@@ -31,9 +35,8 @@ public class CartController {
         System.out.println("Produkt " + productId + "z koszyka nr " + cartId + " usuniety");
     }
 
-    //po stworzeniu wlasciwej klasie usunac klase OrderDtoTemporary i zastapic wlasciwa
     @PostMapping("/order/{cartId}")
-    public OrderDtoTemporary createOrderFromCart(@PathVariable int cartId){
-        return new OrderDtoTemporary(1, 1);
+    public OrderDto createOrderFromCart(@PathVariable int cartId){
+        return new OrderDto(1,"1",testUser, new ArrayList<>());
     }
 }
