@@ -2,7 +2,6 @@ package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.OrderDto;
-import com.kodilla.ecommercee.domain.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
     private final List<CartDto> carts = new ArrayList<>();
-    private final User testUser = new User(1,"XXX", "YYY", false, "XYZ", new ArrayList<>());
 
     @GetMapping("/{cartId}")
     public List<String> getCartById(@PathVariable int cartId) {
@@ -37,6 +35,6 @@ public class CartController {
 
     @PostMapping("/order/{cartId}")
     public OrderDto createOrderFromCart(@PathVariable int cartId){
-        return new OrderDto(1,"1",testUser, new ArrayList<>());
+        return new OrderDto(1L,"1",1L, new ArrayList<>());
     }
 }

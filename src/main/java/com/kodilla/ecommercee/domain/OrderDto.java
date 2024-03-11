@@ -10,8 +10,8 @@ import java.util.List;
 @Setter
 public class OrderDto {
 
-    private int id;
+    private long id;
     private String orderNumber;
-    private User user;
-    private List<Product> products;
+    private long userId;
+    private List<Long> orderProductsIds;
 }

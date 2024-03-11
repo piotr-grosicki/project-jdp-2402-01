@@ -15,8 +15,7 @@ import java.util.List;
 public class OrderController {
 
     private List<OrderDto> allOrdersTest = new ArrayList<>();
-    private final User testUser = new User(1,"XXX", "YYY", false, "XYZ", new ArrayList<>());
-    private OrderDto oneOrderTest = new OrderDto(111, "order_number", testUser, new ArrayList<>());
+    private OrderDto oneOrderTest = new OrderDto(111, "order_number", 222, new ArrayList<>());
 
     // GET
     @GetMapping
@@ -38,7 +37,7 @@ public class OrderController {
     // PUT
     @PutMapping
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
-        oneOrderTest = new OrderDto(111, "changed_number", testUser, new ArrayList<>());
+        oneOrderTest = new OrderDto(111L, "changed_number", 222, new ArrayList<>());
         return ResponseEntity.ok(oneOrderTest);
     }
 
