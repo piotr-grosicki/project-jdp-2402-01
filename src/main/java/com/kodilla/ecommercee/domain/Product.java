@@ -44,16 +44,13 @@ public class Product {
     private List<Cart> carts;
 
 
-
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "ORDERS_HAS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "PRODUCTS_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "ORDERS_ID", referencedColumnName = "ID")}
     )
-    private List<Order> orders;
-
+    private List<Order> orderst;
 
 
 }
