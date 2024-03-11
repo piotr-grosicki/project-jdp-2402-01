@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/test/product")
+@RequestMapping("/product")
 public class ProductController {
 
     @GetMapping
@@ -18,18 +18,18 @@ public class ProductController {
     }
 
     @GetMapping(value = "{productId}")
-    public ProductDto getProduct(@PathVariable int productId) {
-        return new ProductDto(1, "Pistachios", "200g bag",  BigDecimal.valueOf(38.99), 8);
+    public ProductDto getProduct(@PathVariable Long productId) {
+        return new ProductDto(1L, "Pistachios", "200g bag",  BigDecimal.valueOf(38.99), 8L);
     }
 
     @DeleteMapping(value = "{productId}")
-    public void deleteProduct(@PathVariable int productId) {
+    public void deleteProduct(@PathVariable Long productId) {
 
     }
 
     @PutMapping
     public ProductDto  updateProduct(@RequestBody ProductDto  productDto) {
-        return new ProductDto(1, "Peanut Butter", "900g",  BigDecimal.valueOf(24.99), 7);
+        return new ProductDto(1L, "Peanut Butter", "900g",  BigDecimal.valueOf(24.99), 7L);
     }
 
     @PostMapping

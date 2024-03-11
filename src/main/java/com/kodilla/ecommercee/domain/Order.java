@@ -1,5 +1,9 @@
 package com.kodilla.ecommercee.domain;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import lombok.*;
 
 import java.util.List;
@@ -9,10 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Entity(name = "ORDERS")
 public class Order {
 
+    @Id
+    @Column(name = "ID", unique = true)
     private Long id;
-    private String orderNumber;
-    private Long userId;
-    private List<Integer> orderProductsIds;
+
 }
