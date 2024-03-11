@@ -50,7 +50,7 @@ public class Product {
             joinColumns = {@JoinColumn(name = "PRODUCTS_ID", referencedColumnName = "ID")},
             inverseJoinColumns = {@JoinColumn(name = "ORDERS_ID", referencedColumnName = "ID")}
     )
-    private List<Order> orderst;
+    private List<Order> orders;
 
 
 }
