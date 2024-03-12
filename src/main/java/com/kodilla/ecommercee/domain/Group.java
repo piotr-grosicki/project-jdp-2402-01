@@ -14,7 +14,7 @@ import lombok.NonNull;
 public class Group {
 
     @Id
-    @Column(name = "ID", unique = true)
+    @Column(name = "GROUP_ID", unique = true)
     private int id;
 }
 

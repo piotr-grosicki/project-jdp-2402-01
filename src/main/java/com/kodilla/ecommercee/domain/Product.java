@@ -36,23 +36,10 @@ public class Product {
     @JoinColumn(name = "GROUP_ID")
     private Group group;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "CART_HAS_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")}
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
 
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "ORDER_HAS_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")}
-    )
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Order> orders;
-
 
 }
