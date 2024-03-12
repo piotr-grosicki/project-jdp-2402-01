@@ -1,15 +1,10 @@
 package com.kodilla.ecommercee.domain;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,7 +25,9 @@ public class Product {
     private String name;
     private String description;
     private BigDecimal price;
-    private int group_id;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "GROUP_ID")
+    private Group group;
     @ManyToMany
     private List<Order> orders;
 }
