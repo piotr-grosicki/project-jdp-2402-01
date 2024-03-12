@@ -1,5 +1,6 @@
 package com.kodilla.ecommercee.domain;
 
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -10,12 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+
 @Table(name = "PRODUCTS")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID", unique = true)
+    @Column(name = "PRODUCT_ID", unique = true)
     private Long id;
 
     @NonNull
@@ -37,18 +39,18 @@ public class Product {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "CARTS_HAS_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "PRODUCTS_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "CARTS_ID", referencedColumnName = "ID")}
+            name = "CART_HAS_PRODUCTS",
+            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")}
     )
     private List<Cart> carts;
 
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "ORDERS_HAS_PRODUCTS",
-            joinColumns = {@JoinColumn(name = "PRODUCTS_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ORDERS_ID", referencedColumnName = "ID")}
+            name = "ORDER_HAS_PRODUCTS",
+            joinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")}
     )
     private List<Order> orders;
 

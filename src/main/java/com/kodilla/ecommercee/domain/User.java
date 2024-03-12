@@ -30,14 +30,14 @@ public class User {
     private boolean blocked;
     @Column(name = "API_KEY")
     private String apiKey;
-/*
-    @OneToMany(
+
+    /*@OneToMany(
             targetEntity = Cart.class,
             mappedBy = "user",
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY
     )
-    private List<Cart> carts = new ArrayList<>();
+    private List<Cart> carts = new ArrayList<>();*/
     @OneToMany(
             targetEntity = Order.class,
             mappedBy = "user",
@@ -46,5 +46,5 @@ public class User {
     )
     private List<Order> orders = new ArrayList<>();
 
-    */
+
 }
