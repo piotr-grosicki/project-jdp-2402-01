@@ -1,7 +1,9 @@
 package com.kodilla.ecommercee.controller;
+
 import com.kodilla.ecommercee.domain.CartDto;
-import com.kodilla.ecommercee.domain.OrderDtoTemporary;
+import com.kodilla.ecommercee.domain.OrderDto;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,9 +33,8 @@ public class CartController {
         System.out.println("Produkt " + productId + "z koszyka nr " + cartId + " usuniety");
     }
 
-    //po stworzeniu wlasciwej klasie usunac klase OrderDtoTemporary i zastapic wlasciwa
     @PostMapping("/order/{cartId}")
-    public OrderDtoTemporary createOrderFromCart(@PathVariable int cartId){
-        return new OrderDtoTemporary(1, 1);
+    public OrderDto createOrderFromCart(@PathVariable int cartId){
+        return new OrderDto(1L,"1",1L, new ArrayList<>());
     }
 }
