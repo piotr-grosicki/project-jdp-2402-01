@@ -1,20 +1,19 @@
 package com.kodilla.ecommercee.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
+@Data
+@Entity
+@Table(name = "PRODUCTS")
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 public class Product {
     @Id
     @Column(name = "PRODUCT_ID")
@@ -23,6 +22,11 @@ public class Product {
     private String description;
     private BigDecimal price;
     private int group_id;
+
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
+    private List<Cart> carts;
+
     @ManyToMany
     private List<Order> orders;
+
 }

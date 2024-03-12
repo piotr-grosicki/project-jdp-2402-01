@@ -18,7 +18,8 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
         int id = users.size()+1;
         String apiKey = generateRandomApiKey();
-        User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false, apiKey, new ArrayList<>());
+        User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false,
+                apiKey, new ArrayList<>(), new ArrayList<>());
         users.put(id, user);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successful user creation");
     }
