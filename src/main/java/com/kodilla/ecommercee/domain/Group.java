@@ -6,17 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+
 import java.util.List;
+
 
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Groups_Table")
+@Table(name = "GROUPS_TABLE")
 public class Group {
     @Id
-    @Column(name = "Group_ID")
+    @Column(name = "GROUP_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(name = "NAME", unique = true)
