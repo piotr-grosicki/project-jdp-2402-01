@@ -6,10 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/user")
@@ -21,7 +18,7 @@ public class UserController {
     public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
         int id = users.size()+1;
         String apiKey = generateRandomApiKey();
-        User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false, apiKey);
+        User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false, apiKey, new ArrayList<>());
         users.put(id, user);
         return ResponseEntity.status(HttpStatus.CREATED).body("Successful user creation");
     }

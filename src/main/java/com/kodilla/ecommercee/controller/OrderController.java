@@ -1,6 +1,7 @@
 package com.kodilla.ecommercee.controller;
 
 import com.kodilla.ecommercee.domain.OrderDto;
+import com.kodilla.ecommercee.domain.User;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 public class OrderController {
 
     private List<OrderDto> allOrdersTest = new ArrayList<>();
-    private OrderDto oneOrderTest = new OrderDto(111L, "order_number", 666L, new ArrayList<>());
+    private OrderDto oneOrderTest = new OrderDto(111, "order_number", 222, new ArrayList<>());
 
     // GET
     @GetMapping
@@ -36,7 +37,7 @@ public class OrderController {
     // PUT
     @PutMapping
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
-        oneOrderTest = new OrderDto(111L, "changed_number", 666L, new ArrayList<>());
+        oneOrderTest = new OrderDto(111L, "changed_number", 222, new ArrayList<>());
         return ResponseEntity.ok(oneOrderTest);
     }
 
