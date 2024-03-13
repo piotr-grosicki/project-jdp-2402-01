@@ -15,12 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "GROUPS_TABLE")
+@Table(name = "PRODUCTS_GROUP")
 public class Group {
     @Id
     @Column(name = "GROUP_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Column(name = "NAME", unique = true)
     @NonNull
     private String name;
