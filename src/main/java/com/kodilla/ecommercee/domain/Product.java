@@ -1,10 +1,7 @@
 package com.kodilla.ecommercee.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -15,18 +12,31 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
+
     @Id
-    @Column(name = "PRODUCT_ID")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "PRODUCT_ID", unique = true)
+    private Long id;
+
+    @NonNull
+    @Column(name = "NAME")
     private String name;
+
+    @NonNull
+    @Column(name = "DESCRIPTION")
     private String description;
+
+    @NonNull
+    @Column(name = "PRICE")
     private BigDecimal price;
-    private int group_id;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "GROUP_ID")
+    private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Cart> carts;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Order> orders;
-
 }

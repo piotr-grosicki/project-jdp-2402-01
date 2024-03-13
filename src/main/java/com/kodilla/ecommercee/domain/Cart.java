@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Cart {
 
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CART_ID", unique = true)
@@ -30,3 +31,4 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 }
+
