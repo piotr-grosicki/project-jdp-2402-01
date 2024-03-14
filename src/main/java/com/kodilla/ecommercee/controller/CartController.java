@@ -11,6 +11,8 @@ import java.util.List;
 @RequestMapping("/cart")
 public class CartController {
 
+    private final List<CartDto> carts = new ArrayList<>();
+
     @GetMapping("/{cartId}")
     public List<String> getCartById(@PathVariable Long cartId) {
         List<String> productsName = new ArrayList<>();
