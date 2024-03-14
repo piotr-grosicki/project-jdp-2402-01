@@ -18,15 +18,18 @@ public class Cart {
     @Column(name = "CART_ID", unique = true)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "CART_HAS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
     )
     private List<Product> products = new ArrayList<>();
+
+    @Column(name = "ACTIVE")
+    private boolean active;
 }

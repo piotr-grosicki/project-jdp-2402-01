@@ -28,7 +28,7 @@ public class CartController {
 
     @PutMapping("/add/{cartId}/{productId}")
     public CartDto addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) {
-        return new CartDto(1L,1L,new ArrayList<>());
+        return new CartDto(1L,1L,new ArrayList<>(), true);
     }
 
     @DeleteMapping("/delete/{cartId}/{productId}")
@@ -38,6 +38,6 @@ public class CartController {
 
     @PostMapping("/order/{cartId}")
     public OrderDto createOrderFromCart(@PathVariable Long cartId) {
-        return new OrderDto(1L,"1",1L, new ArrayList<>());
+        return new OrderDto(1L,"1",1L, new ArrayList<>(), true);
     }
 }

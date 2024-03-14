@@ -31,4 +31,7 @@ public class Order {
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
     )
     private List<Product> products;
+
+    @Column(name = "ACTIVE")
+    private boolean active;
 }

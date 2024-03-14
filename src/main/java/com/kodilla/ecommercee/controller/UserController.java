@@ -20,7 +20,7 @@ public class UserController {
         Long userId = Long.valueOf(users.size()) + 1;
         String apiKey = generateRandomApiKey();
         User user = new User(userId, userDto.getUsername(), userDto.getPassword(), false,
-                apiKey, new ArrayList<>(), new ArrayList<>());
+                apiKey, new ArrayList<>(), new ArrayList<>(), true);
         users.put(userId, user);
         return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }

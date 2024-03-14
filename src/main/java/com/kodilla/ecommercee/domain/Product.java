@@ -27,13 +27,16 @@ public class Product {
     @Column(name = "PRICE", nullable = false)
     private BigDecimal price;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "PRODUCTS_GROUP_ID", referencedColumnName = "GROUP_ID")
     private Group group;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
+    @ManyToMany(mappedBy = "products")
     private List<Cart> carts;
 
-    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
+    @ManyToMany(mappedBy = "products")
     private List<Order> orders;
+
+    @Column(name = "ACTIVE")
+    private boolean active;
 }

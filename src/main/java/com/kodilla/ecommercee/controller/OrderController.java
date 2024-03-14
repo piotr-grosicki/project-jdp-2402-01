@@ -13,7 +13,7 @@ import java.util.List;
 public class OrderController {
 
     private List<OrderDto> allOrdersTest = new ArrayList<>();
-    private OrderDto oneOrderTest = new OrderDto(111L, "order_number", 222L, new ArrayList<>());
+    private OrderDto oneOrderTest = new OrderDto(111L, "order_number", 222L, new ArrayList<>(), true);
 
     @GetMapping
     public ResponseEntity<List<OrderDto>> getAllOrders() {
@@ -33,7 +33,7 @@ public class OrderController {
 
     @PutMapping
     public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
-        oneOrderTest = new OrderDto(111L, "changed_number", 222L, new ArrayList<>());
+        oneOrderTest = new OrderDto(111L, "changed_number", 222L, new ArrayList<>(), true);
         return ResponseEntity.ok(oneOrderTest);
     }
 
