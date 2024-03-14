@@ -22,11 +22,11 @@ public class UserController {
         User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false,
                 apiKey, new ArrayList<>(), new ArrayList<>());
         users.put(id, user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successful user creation");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
 
     @PostMapping("/users/block/{userId}")
-    public ResponseEntity<String> blockUser(@PathVariable int userId){
+    public ResponseEntity<String> blockUser(@PathVariable Long userId){
         User user = users.get(userId);
         if (user == null){
             return ResponseEntity.notFound().build();

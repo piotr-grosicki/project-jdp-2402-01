@@ -27,21 +27,21 @@ public class GroupController {
         return group;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GroupDto> getGroupById(@PathVariable("id") int id) {
+    @GetMapping("/{groupId}")
+    public ResponseEntity<GroupDto> getGroupById(@PathVariable("groupId") Long groupId) {
         for (GroupDto group : productGroups) {
-            if (group.getId() == id) {
+            if (group.getId().equals(groupId)) {
                 return ResponseEntity.ok(group);
             }
         }
         return ResponseEntity.notFound().build();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable("id") Long id, @RequestBody GroupDto updatedGroup) {
+    @PutMapping("/{groupId}")
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable("groupId") Long groupId, @RequestBody GroupDto updatedGroup) {
         for (GroupDto group : productGroups) {
-            if (group.getId() == id) {
-                updatedGroup.setId(id);
+            if (group.getId().equals(groupId)) {
+                updatedGroup.setId(groupId);
                 productGroups.remove(group);
                 productGroups.add(updatedGroup);
                 return ResponseEntity.ok(updatedGroup);
