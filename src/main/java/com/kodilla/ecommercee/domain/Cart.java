@@ -22,7 +22,7 @@ public class Cart {
     @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "CART_HAS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "CART_ID", referencedColumnName = "CART_ID")},
