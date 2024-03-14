@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.controller;
 
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +10,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/groups")
 public class GroupController {
+
     private final List<GroupDto> productGroups = new ArrayList<>();
-    private int nextGroupId =1;
+    private Long nextGroupId = 1L;
 
     @GetMapping
     public List<GroupDto> getAllGroups() {
@@ -27,20 +27,21 @@ public class GroupController {
         return group;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GroupDto> getGroupById(@PathVariable("id") int id) {
+    @GetMapping("/{groupId}")
+    public ResponseEntity<GroupDto> getGroupById(@PathVariable("groupId") Long groupId) {
         for (GroupDto group : productGroups) {
-            if (group.getId() == id) {
+            if (group.getId().equals(groupId)) {
                 return ResponseEntity.ok(group);
             }
         }
         return ResponseEntity.notFound().build();
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable("id") int id, @RequestBody GroupDto updatedGroup) {
+
+    @PutMapping("/{groupId}")
+    public ResponseEntity<GroupDto> updateGroup(@PathVariable("groupId") Long groupId, @RequestBody GroupDto updatedGroup) {
         for (GroupDto group : productGroups) {
-            if (group.getId() == id) {
-                updatedGroup.setId(id);
+            if (group.getId().equals(groupId)) {
+                updatedGroup.setId(groupId);
                 productGroups.remove(group);
                 productGroups.add(updatedGroup);
                 return ResponseEntity.ok(updatedGroup);
@@ -49,4 +50,3 @@ public class GroupController {
         return ResponseEntity.notFound().build();
     }
 }
-

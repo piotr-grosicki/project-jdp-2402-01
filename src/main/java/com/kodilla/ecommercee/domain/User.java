@@ -1,35 +1,30 @@
 package com.kodilla.ecommercee.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "USERS")
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true)
-    private  int id;
+    private  Long id;
 
-    @NotNull
-    @Column(name = "USERNAME", unique = true)
+    @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
 
-    @NotNull
-    @Column(name = "PASSWORD", unique = true)
+    @Column(name = "PASSWORD", unique = true, nullable = false)
     private String password;
 
-    @Column(name ="BLOCKED")
+    @Column(name ="BLOCKED", nullable = false)
     private boolean blocked;
 
     @Column(name = "API_KEY")

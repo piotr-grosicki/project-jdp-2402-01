@@ -11,21 +11,22 @@ import java.util.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    private Map<Integer, User> users = new HashMap<>();
+
+    private Map<Long, User> users = new HashMap<>();
     private Random random = new Random();
 
     @PostMapping("/users/create")
     public ResponseEntity<String> createUser(@RequestBody UserDto userDto) {
-        int id = users.size()+1;
+        Long userId = Long.valueOf(users.size()) + 1;
         String apiKey = generateRandomApiKey();
-        User user = new User(id, userDto.getUsername(), userDto.getPassword(),  false,
+        User user = new User(userId, userDto.getUsername(), userDto.getPassword(), false,
                 apiKey, new ArrayList<>(), new ArrayList<>());
-        users.put(id, user);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Successful user creation");
+        users.put(userId, user);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User created successfully");
     }
 
     @PostMapping("/users/block/{userId}")
-    public ResponseEntity<String> blockUser(@PathVariable int userId){
+    public ResponseEntity<String> blockUser(@PathVariable Long userId){
         User user = users.get(userId);
         if (user == null){
             return ResponseEntity.notFound().build();
@@ -33,8 +34,8 @@ public class UserController {
         user.setBlocked(true);
         return ResponseEntity.ok("User blocked successfully");
     }
+
     private String generateRandomApiKey() {
         return UUID.randomUUID().toString();
     }
-
 }
