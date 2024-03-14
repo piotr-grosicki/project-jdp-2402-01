@@ -1,6 +1,5 @@
 package com.kodilla.ecommercee.domain;
 
-
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -8,11 +7,10 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "PRODUCTS")
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-
-@Table(name = "PRODUCTS")
 public class Product {
 
     @Id
@@ -41,5 +39,4 @@ public class Product {
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
     private List<Order> orders;
-
 }

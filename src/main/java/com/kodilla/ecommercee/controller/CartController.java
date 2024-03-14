@@ -26,7 +26,7 @@ public class CartController {
     }
     @PutMapping("/add/{cartId}/{productId}")
     public CartDto addProductToCart(@PathVariable int cartId, @PathVariable int productId){
-        return new CartDto(1,1,new ArrayList<>());
+        return new CartDto(1L,1L,new ArrayList<>());
     }
     @DeleteMapping("/delete/{cartId}/{productId}")
     public void removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
