@@ -7,15 +7,32 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 
+import java.util.List;
+
+
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "GROUPS_TABLE")
+@Entity
+@Table(name = "PRODUCTS_GROUP")
 public class Group {
-
     @Id
-    @Column(name = "GROUP_ID", unique = true)
-    private int id;
+    @Column(name = "GROUP_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    @Column(name = "NAME", unique = true)
+    @NonNull
+    private String name;
+    @Column(name = "DESCRIPTION", unique = true)
+    @NonNull
+    private String description;
+    @OneToMany(targetEntity = Product.class,
+            mappedBy = "group",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private List<Product> products;
+
 }
 
 

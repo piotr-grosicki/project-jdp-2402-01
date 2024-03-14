@@ -31,7 +31,7 @@ public class Product {
     private BigDecimal price;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "GROUP_ID")
+    @JoinColumn(name = "PRODUCTS_GROUP_ID", referencedColumnName = "GROUP_ID")
     private Group group;
 
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "products")
