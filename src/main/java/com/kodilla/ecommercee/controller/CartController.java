@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/cart")
 public class CartController {
+
     private final List<CartDto> carts = new ArrayList<>();
 
     @GetMapping("/{cartId}")
@@ -18,23 +19,25 @@ public class CartController {
         productsName.add("XXX");
         productsName.add("YYY");
        return productsName;
+    }
 
-    }
     @PostMapping()
-    public void createCart(@RequestBody CartDto cartDto){
-        System.out.println("cart created");
+    public void createCart(@RequestBody CartDto cartDto) {
+        System.out.println("The cart has been created");
     }
+
     @PutMapping("/add/{cartId}/{productId}")
-    public CartDto addProductToCart(@PathVariable int cartId, @PathVariable int productId){
+    public CartDto addProductToCart(@PathVariable int cartId, @PathVariable int productId) {
         return new CartDto(1L,1L,new ArrayList<>());
     }
+
     @DeleteMapping("/delete/{cartId}/{productId}")
     public void removeProductFromCart(@PathVariable int cartId, @PathVariable int productId) {
-        System.out.println("Produkt " + productId + "z koszyka nr " + cartId + " usuniety");
+        System.out.println("Product no." + productId + " has been removed from the cart no. " + cartId);
     }
 
     @PostMapping("/order/{cartId}")
-    public OrderDto createOrderFromCart(@PathVariable int cartId){
+    public OrderDto createOrderFromCart(@PathVariable int cartId) {
         return new OrderDto(1L,"1",1L, new ArrayList<>());
     }
 }

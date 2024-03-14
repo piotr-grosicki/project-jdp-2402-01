@@ -11,6 +11,7 @@ import java.util.*;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
     private Map<Integer, User> users = new HashMap<>();
     private Random random = new Random();
 
@@ -33,8 +34,8 @@ public class UserController {
         user.setBlocked(true);
         return ResponseEntity.ok("User blocked successfully");
     }
+
     private String generateRandomApiKey() {
         return UUID.randomUUID().toString();
     }
-
 }

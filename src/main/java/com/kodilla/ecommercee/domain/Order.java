@@ -1,28 +1,23 @@
 package com.kodilla.ecommercee.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.List;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
+@Data
 @Entity
 @Table(name = "ORDERS")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Order {
 
     @Id
-    @GeneratedValue
-    @NotNull
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDER_ID", unique = true)
     private long id;
 
-    @NotNull
-    @Column(name = "ORDER_NUMBER", unique = true)
+    @Column(name = "ORDER_NUMBER", unique = true, nullable = false)
     private String orderNumber;
 
     @ManyToOne

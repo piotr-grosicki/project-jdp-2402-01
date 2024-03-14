@@ -9,25 +9,22 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "PRODUCTS")
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PRODUCT_ID", unique = true)
     private Long id;
 
-    @NonNull
-    @Column(name = "NAME")
+    @Column(name = "NAME", nullable = false)
     private String name;
 
-    @NonNull
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    @NonNull
-    @Column(name = "PRICE")
+    @Column(name = "PRICE", nullable = false)
     private BigDecimal price;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
