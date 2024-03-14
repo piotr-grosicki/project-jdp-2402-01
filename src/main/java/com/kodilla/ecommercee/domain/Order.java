@@ -24,7 +24,7 @@ public class Order {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ORDER_HAS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
