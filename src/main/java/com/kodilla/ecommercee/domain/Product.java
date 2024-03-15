@@ -37,6 +37,6 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Order> orders;
 
-    @Column(name = "ACTIVE")
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active;
 }
