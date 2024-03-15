@@ -24,11 +24,14 @@ public class Order {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "ORDER_HAS_PRODUCTS",
             joinColumns = {@JoinColumn(name = "ORDER_ID", referencedColumnName = "ORDER_ID")},
             inverseJoinColumns = {@JoinColumn(name = "PRODUCT_ID", referencedColumnName = "PRODUCT_ID")}
     )
     private List<Product> products;
+
+    @Column(name = "ACTIVE",  nullable = false)
+    private boolean active;
 }

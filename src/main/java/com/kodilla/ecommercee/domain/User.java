@@ -45,4 +45,7 @@ public class User {
             fetch = FetchType.LAZY
     )
     private List<Order> orders = new ArrayList<>();
+
+    @Column(name = "ACTIVE",  nullable = false)
+    private boolean active;
 }

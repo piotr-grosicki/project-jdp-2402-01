@@ -18,7 +18,7 @@ public class ProductController {
 
     @GetMapping(value = "{productId}")
     public ProductDto getProduct(@PathVariable Long productId) {
-        return new ProductDto(1L, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), 8L);
+        return new ProductDto(1L, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), 8L, true);
     }
 
     @DeleteMapping(value = "{productId}")
@@ -28,7 +28,7 @@ public class ProductController {
 
     @PutMapping
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto(1L, "Peanut Butter", "900g", BigDecimal.valueOf(24.99), 7L);
+        return new ProductDto(1L, "Peanut Butter", "900g", BigDecimal.valueOf(24.99), 7L, true);
     }
 
     @PostMapping

@@ -12,4 +12,5 @@ public class OrderDto {
     private String orderNumber;
     private Long userId;
     private List<Long> orderProductsIds;
+    private boolean active;
 }

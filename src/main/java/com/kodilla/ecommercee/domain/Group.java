@@ -28,4 +28,7 @@ public class Group {
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
     private List<Product> products;
+
+    @Column(name = "ACTIVE",  nullable = false)
+    private boolean active;
 }
