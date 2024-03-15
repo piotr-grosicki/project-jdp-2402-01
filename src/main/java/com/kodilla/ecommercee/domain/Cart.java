@@ -30,6 +30,6 @@ public class Cart {
     )
     private List<Product> products = new ArrayList<>();
 
-    @Column(name = "ACTIVE")
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active;
 }
