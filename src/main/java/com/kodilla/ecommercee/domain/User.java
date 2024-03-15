@@ -46,6 +46,6 @@ public class User {
     )
     private List<Order> orders = new ArrayList<>();
 
-    @Column(name = "ACTIVE")
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active;
 }
