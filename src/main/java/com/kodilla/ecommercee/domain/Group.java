@@ -29,6 +29,6 @@ public class Group {
             fetch = FetchType.EAGER)
     private List<Product> products;
 
-    @Column(name = "ACTIVE")
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active;
 }
