@@ -32,6 +32,6 @@ public class Order {
     )
     private List<Product> products;
 
-    @Column(name = "ACTIVE")
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active;
 }
