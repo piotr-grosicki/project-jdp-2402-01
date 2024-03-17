@@ -85,8 +85,6 @@ public class CartTestSuite {
 
         //When
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
-        System.out.println(savedCart.getId());
-        System.out.println(retrievedCart.get().getId());
 
         //Then
         Assertions.assertEquals(retrievedCart.get().getId(), savedCart.getId());
@@ -130,21 +128,32 @@ public class CartTestSuite {
         List<Cart> carts = new ArrayList<>();
         carts.add(cart);
         Product pistachios = new Product(null, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), new Group(), carts, new ArrayList<>(), true);
+        Product chocolate = new Product(null, "Chocolate", "80g", BigDecimal.valueOf(4.99), new Group(), carts, new ArrayList<>(), true);
         Group group = new Group(null, "food", "things to eat", new ArrayList<>(), true);
         pistachios.setGroup(group);
+        chocolate.setGroup(group);
         productRepository.save(pistachios);
+        productRepository.save(chocolate);
         group.getProducts().add(pistachios);
+        group.getProducts().add(chocolate);
         groupRepository.save(group);
         cart.getProducts().add(pistachios);
+        cart.getProducts().add(chocolate);
         Cart savedCart = cartRepository.save(cart);
 
         //When
-        productRepository.delete(pistachios);
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        List<Product> retrievedProducts = retrievedCart.get().getProducts();
+        retrievedProducts.remove(pistachios);
+        System.out.println(retrievedProducts.size());
+        cart.setProducts((retrievedProducts));
+        savedCart = cartRepository.save(cart);
+        retrievedCart = cartRepository.findById(savedCart.getId());
+        System.out.println(retrievedCart.get().getProducts().size());
 
         //Then
-        Assertions.assertEquals("Pistachios", retrievedCart.get().getProducts().get(0).getName());
-        Assertions.assertFalse(retrievedCart.get().getProducts().get(0).isActive());
+        Assertions.assertEquals(1, retrievedCart.get().getProducts().size());
+        Assertions.assertFalse(retrievedCart.get().getProducts().contains(pistachios));
     }
 
 }
