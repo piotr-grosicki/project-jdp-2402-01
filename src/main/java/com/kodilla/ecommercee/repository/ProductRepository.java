@@ -14,6 +14,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
         entity.setActive(false);
         save(entity);
     }
+
     List<Product> findAllByActiveTrue();
+
     Optional<Product> findByIdAndActiveTrue(Long id);
 }
