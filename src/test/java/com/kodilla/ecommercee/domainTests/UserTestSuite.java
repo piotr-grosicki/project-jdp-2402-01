@@ -71,15 +71,14 @@ public class UserTestSuite {
     }
 
     @Test
-    public void testDeactivateUser() {
+    public void testDeleteUser() {
         // Given
         User user = new User(null, "testUsername", "testPassword",
                 false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
         User savedUser = userRepository.save(user);
 
         //When
-        savedUser.setActive(false);
-        userRepository.save(savedUser);
+        userRepository.delete(savedUser);
         Optional<User> deactivatedUser = userRepository.findById(savedUser.getId());
 
         //Then
