@@ -1,6 +1,13 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
+import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.mapper.ProductMapper;
+import com.kodilla.ecommercee.service.ProductService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -9,30 +16,40 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@RequiredArgsConstructor
 public class ProductController {
 
+    private final ProductService productService;
+    private final ProductMapper productMapper;
+
     @GetMapping
-    public List<ProductDto> getProducts() {
-        return new ArrayList<>();
+    public ResponseEntity<List<ProductDto>> getProducts() {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(products));
     }
 
     @GetMapping(value = "{productId}")
-    public ProductDto getProduct(@PathVariable Long productId) {
-        return new ProductDto(1L, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), 8L, true);
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long productId) throws ProductNotFoundException {
+        return ResponseEntity.ok(productMapper.mapToProductDto(productService.getProduct(productId)));
     }
 
     @DeleteMapping(value = "{productId}")
-    public void deleteProduct(@PathVariable Long productId) {
-
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) throws ProductNotFoundException {
+        productService.deleteProduct(productService.getProduct(productId).getId());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ProductDto updateProduct(@RequestBody ProductDto productDto) {
-        return new ProductDto(1L, "Peanut Butter", "900g", BigDecimal.valueOf(24.99), 7L, true);
+    public ResponseEntity<ProductDto> updateProduct(@RequestBody ProductDto productDto) {
+        Product product = productMapper.mapToProduct(productDto);
+        Product savedProduct = productService.saveProduct(product);
+        return ResponseEntity.ok(productMapper.mapToProductDto(savedProduct));
     }
 
-    @PostMapping
-    public void createProduct(@RequestBody ProductDto productDto) {
-
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> createProduct(@RequestBody ProductDto productDto) {
+        Product product = productMapper.mapToProduct(productDto);
+        productService.saveProduct(product);
+        return ResponseEntity.ok().build();
     }
 }
