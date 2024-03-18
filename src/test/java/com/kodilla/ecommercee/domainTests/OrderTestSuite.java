@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
@@ -22,66 +23,92 @@ public class OrderTestSuite {
     void tearDown() {
         orderRepository.deleteAll();
     }
-        @Test
-        void saveOrderTest () {
-            //Given
-            Order order = new Order();
-            order.setOrderNumber("Order-1");
 
-            //When
-            Order savedOrder = orderRepository.save(order);
+    @Test
+    void saveOrderTest() {
+        //Given
+        Order order = new Order();
+        order.setOrderNumber("Order-1");
+        order.setActive(true);
 
-            //Then
-            Assertions.assertNotNull(savedOrder.getId());
-            Assertions.assertEquals("Order-1", savedOrder.getOrderNumber());
-            Assertions.assertFalse(savedOrder.isActive());
+        //When
+        Order savedOrder = orderRepository.save(order);
+
+        //Then
+        Assertions.assertNotNull(savedOrder.getId());
+        Assertions.assertEquals("Order-1", savedOrder.getOrderNumber());
+        Assertions.assertTrue(savedOrder.isActive());
     }
 
-        @Test
-        void findOrderByIdTest () {
-            //Given
-            Order order = new Order();
-            order.setOrderNumber("Order-1");
-            Order savedOrder = orderRepository.save(order);
+    @Test
+    void findOrderByIdTest() {
+        //Given
+        Order order = new Order();
+        order.setOrderNumber("Order-1");
+        Order savedOrder = orderRepository.save(order);
 
-            //When
-            Optional<Order> foundOrderOptional = orderRepository.findById(savedOrder.getId());
+        //When
+        Optional<Order> foundOrderOptional = orderRepository.findById(savedOrder.getId());
 
-            //Then
-            Assertions.assertTrue(foundOrderOptional.isPresent());
-            Order foundOrder = foundOrderOptional.get();
-            Assertions.assertEquals(savedOrder.getId(), foundOrder.getId());
-            Assertions.assertEquals("Order-1", foundOrder.getOrderNumber());
+        //Then
+        Assertions.assertTrue(foundOrderOptional.isPresent());
+        Order foundOrder = foundOrderOptional.get();
+        Assertions.assertEquals(savedOrder.getId(), foundOrder.getId());
+        Assertions.assertEquals("Order-1", foundOrder.getOrderNumber());
     }
 
-        @Test
-        void updateOrderTest () {
-            //Given
-            Order order = new Order();
-            order.setOrderNumber("Order-1");
-            Order savedOrder = orderRepository.save(order);
+    @Test
+    void updateOrderTest() {
+        //Given
+        Order order = new Order();
+        order.setOrderNumber("Order-1");
+        Order savedOrder = orderRepository.save(order);
 
-            //When
-            savedOrder.setOrderNumber("Order-3");
-            Order updatedOrder = orderRepository.save(savedOrder);
+        //When
+        savedOrder.setOrderNumber("Order-3");
+        Order updatedOrder = orderRepository.save(savedOrder);
 
-            //Then
-            Assertions.assertEquals(savedOrder.getId(), updatedOrder.getId());
-            Assertions.assertEquals("Order-3", updatedOrder.getOrderNumber());
+        //Then
+        Assertions.assertEquals(savedOrder.getId(), updatedOrder.getId());
+        Assertions.assertEquals("Order-3", updatedOrder.getOrderNumber());
     }
 
-        @Test
-        void deleteOrderTest () {
-            //Given
-            Order order = new Order();
-            order.setOrderNumber("Order-1");
-            Order savedOrder = orderRepository.save(order);
+    @Test
+    void deleteOrderTest() {
+        //Given
+        Order order = new Order();
+        order.setOrderNumber("Order-1");
+        Order savedOrder = orderRepository.save(order);
+        order.setActive(true);
 
-            //When
-            orderRepository.delete(savedOrder);
+        //When
+        orderRepository.delete(savedOrder);
 
-            //Then
-            Assertions.assertTrue(orderRepository.findById(savedOrder.getId()).isPresent());
+        //Then
+        Optional<Order> deletedOrderOptional = orderRepository.findById(savedOrder.getId());
+        Assertions.assertTrue(deletedOrderOptional.isPresent());
+        Assertions.assertFalse(deletedOrderOptional.get().isActive());
+    }
+
+    @Test
+    void findAllByActiveTrueTest() {
+        //Given
+        Order activeOrder = new Order();
+        activeOrder.setOrderNumber("Order-1");
+        orderRepository.save(activeOrder);
+        activeOrder.setActive(true);
+
+        Order inactiveOrder = new Order();
+        inactiveOrder.setOrderNumber("Order-2");
+        orderRepository.save(inactiveOrder);
+        inactiveOrder.setActive(false);
+
+        //When
+        List<Order> activeOrders = orderRepository.findAllByActiveTrue();
+
+        //Then
+        Assertions.assertEquals(1, activeOrders.size());
+        Assertions.assertTrue(activeOrders.get(0).isActive());
     }
 }
 
