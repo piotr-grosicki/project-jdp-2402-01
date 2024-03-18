@@ -51,7 +51,7 @@ public class CartTestSuite {
     void createCartTest() {
         //Given
         userRepository.save(user);
-        Cart cart = new Cart(1L, user, new ArrayList<>(), true);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
 
         //When
         Cart savedCart = cartRepository.save(cart);
@@ -65,7 +65,7 @@ public class CartTestSuite {
     void deleteCartTest() {
         //Given
         userRepository.save(user);
-        Cart cart = new Cart(1L, user, new ArrayList<>(), true);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
         Cart savedCart = cartRepository.save(cart);
 
         //When
@@ -80,7 +80,7 @@ public class CartTestSuite {
     void getCartByIdTest() {
         //Given
         userRepository.save(user);
-        Cart cart = new Cart(1L, user, new ArrayList<>(), true);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
         Cart savedCart = cartRepository.save(cart);
 
         //When
@@ -95,7 +95,7 @@ public class CartTestSuite {
     void addProductToCartTest() {
         //Given
         userRepository.save(user);
-        Cart cart = new Cart(1L, user, new ArrayList<>(), true);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
         List<Cart> carts = new ArrayList<>();
         carts.add(cart);
         Product pistachios = new Product(null, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), new Group(), carts, new ArrayList<>(), true);
@@ -124,7 +124,7 @@ public class CartTestSuite {
     void removeProductFromCartTest() {
         //Given
         userRepository.save(user);
-        Cart cart = new Cart(1L, user, new ArrayList<>(), true);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
         List<Cart> carts = new ArrayList<>();
         carts.add(cart);
         Product pistachios = new Product(null, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), new Group(), carts, new ArrayList<>(), true);
