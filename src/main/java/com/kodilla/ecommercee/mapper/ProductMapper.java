@@ -28,7 +28,7 @@ public class ProductMapper {
         product.setPrice(productDto.getPrice());
         product.setActive(productDto.isActive());
 
-        Optional<Group> optionalGroup = groupRepository.findById(productDto.getGroup_id());
+        Optional<Group> optionalGroup = groupRepository.findByIdAndActiveTrue(productDto.getGroup_id());
         if (optionalGroup.isPresent()) {
             Group group = optionalGroup.get();
             product.setGroup(group);
