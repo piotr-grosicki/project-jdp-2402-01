@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
+import java.util.List;
+import java.util.Optional;
+
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
     List<Group> findAllByActiveTrue();
@@ -13,4 +16,8 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         entity.setActive(false);
         save(entity);
     }
+
+    List<Group> findAllByActiveTrue();
+
+    Optional<Group> findByIdAndActiveTrue(Long id);
 }
