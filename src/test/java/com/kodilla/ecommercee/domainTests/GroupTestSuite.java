@@ -177,7 +177,7 @@ public class GroupTestSuite {
         groupRepository.deleteById(groupOne.getId());
 
         //Then
-        assertTrue(groupRepository.findAll().contains(groupOne));
+        assertFalse(groupRepository.findAll().contains(groupOne));
     }
 
     @Test
@@ -210,8 +210,8 @@ public class GroupTestSuite {
         groupRepository.deleteById(groupOne.getId());
 
         //Then
-        assertTrue(groupRepository.findAll().contains(groupOne));
-        assertTrue(productRepository.findAll().contains(productOne));
-        assertTrue(productRepository.findAll().contains(productTwo));
+        assertFalse(groupRepository.findAll().contains(groupOne));
+        assertFalse(productRepository.findAll().contains(productOne));
+        assertFalse(productRepository.findAll().contains(productTwo));
     }
 }
