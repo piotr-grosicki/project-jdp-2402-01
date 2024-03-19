@@ -49,7 +49,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void createCartTest() {
+    void testCreateCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -63,7 +63,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void deleteCartTest() {
+    void testDeleteCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -78,7 +78,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void getCartByIdTest() {
+    void testGetCartById() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -93,7 +93,7 @@ public class CartTestSuite {
 
 
     @Test
-    void addProductToCartTest() {
+    void testAddProductToCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -122,7 +122,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void removeProductFromCartTest() {
+    void testRemoveProductFromCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -157,7 +157,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void createOrderFromCartTest() {
+    void testCreateOrderFromCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
