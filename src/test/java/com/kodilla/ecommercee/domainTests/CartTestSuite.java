@@ -1,10 +1,7 @@
 package com.kodilla.ecommercee.domainTests;
 
 import com.kodilla.ecommercee.domain.*;
-import com.kodilla.ecommercee.repository.CartRepository;
-import com.kodilla.ecommercee.repository.GroupRepository;
-import com.kodilla.ecommercee.repository.ProductRepository;
-import com.kodilla.ecommercee.repository.UserRepository;
+import com.kodilla.ecommercee.repository.*;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -36,6 +33,9 @@ public class CartTestSuite {
     @Autowired
     private GroupRepository groupRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
 
     User user = new User(null, "Someone", "password123", false, "blahblah", new ArrayList<>(), new ArrayList<>(), true);
 
@@ -45,6 +45,7 @@ public class CartTestSuite {
         userRepository.deleteAll();
         productRepository.deleteAll();
         userRepository.deleteAll();
+        orderRepository.deleteAll();
     }
 
     @Test
@@ -145,7 +146,6 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
         List<Product> retrievedProducts = retrievedCart.get().getProducts();
         retrievedProducts.remove(pistachios);
-        System.out.println(retrievedProducts.size());
         cart.setProducts((retrievedProducts));
         savedCart = cartRepository.save(cart);
         retrievedCart = cartRepository.findById(savedCart.getId());
@@ -154,6 +154,45 @@ public class CartTestSuite {
         //Then
         Assertions.assertEquals(1, retrievedCart.get().getProducts().size());
         Assertions.assertFalse(retrievedCart.get().getProducts().contains(pistachios));
+    }
+
+    @Test
+    void createOrderFromCartTest() {
+        //Given
+        userRepository.save(user);
+        Cart cart = new Cart(null, user, new ArrayList<>(), true);
+        List<Cart> carts = new ArrayList<>();
+        carts.add(cart);
+        Product pistachios = new Product(null, "Pistachios", "200g bag", BigDecimal.valueOf(38.99), new Group(), carts, new ArrayList<>(), true);
+        Product chocolate = new Product(null, "Chocolate", "80g", BigDecimal.valueOf(4.99), new Group(), carts, new ArrayList<>(), true);
+        Group group = new Group(null, "food", "things to eat", new ArrayList<>(), true);
+        pistachios.setGroup(group);
+        chocolate.setGroup(group);
+        productRepository.save(pistachios);
+        productRepository.save(chocolate);
+        group.getProducts().add(pistachios);
+        group.getProducts().add(chocolate);
+        groupRepository.save(group);
+        cart.getProducts().add(pistachios);
+        cart.getProducts().add(chocolate);
+        Cart savedCart = cartRepository.save(cart);
+
+        //When
+        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        List<Product> retrievedProducts = retrievedCart.get().getProducts();
+        Order createdOrder = new Order(null, "666",user, retrievedProducts, true);
+        user.getOrders().add(createdOrder);
+        userRepository.save(user);
+        Order savedOrder = orderRepository.save(createdOrder);
+        Optional<Order> retrievedOrder = orderRepository.findById(savedOrder.getId());
+        cartRepository.deleteById(savedCart.getId());
+        retrievedCart = cartRepository.findById(savedCart.getId());
+
+        //Then
+        Assertions.assertEquals(2, retrievedOrder.get().getProducts().size());
+        Assertions.assertEquals("Pistachios", retrievedOrder.get().getProducts().get(0).getName());
+        Assertions.assertEquals(Optional.empty(), retrievedCart);
+
     }
 
 }
