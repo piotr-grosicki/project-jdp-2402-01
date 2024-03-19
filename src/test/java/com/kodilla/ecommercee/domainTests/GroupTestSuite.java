@@ -200,7 +200,8 @@ public class GroupTestSuite {
         assertEquals(2, allProducts.size());
     }
 
-    @Test void testDeleteGroupWithDeletingProductsFromDb() {
+    @Test
+    public void testDeleteGroupWithDeletingProductsFromDb() {
         //Given
         groupRepository.save(groupOne);
         productRepository.save(productOne);
@@ -213,5 +214,25 @@ public class GroupTestSuite {
         assertFalse(groupRepository.findAll().contains(groupOne));
         assertFalse(productRepository.findAll().contains(productOne));
         assertFalse(productRepository.findAll().contains(productTwo));
+    }
+
+    @Test
+    public void testSaveProductToGroup() {
+        //Given
+        groupRepository.save(groupOne);
+        Product newProduct = new Product();
+        newProduct.setName("productNew");
+        newProduct.setDescription("descNew");
+        newProduct.setPrice(BigDecimal.valueOf(33.33));
+        newProduct.setActive(true);
+
+        //When
+        groupOne.getProducts().add(newProduct);
+        Optional<Group> groupWithNewProduct = groupRepository.findById(groupOne.getId());
+
+        //Then
+        assertTrue(groupWithNewProduct.isPresent());
+        assertEquals(3, groupWithNewProduct.get().getProducts().size());
+        assertTrue(groupWithNewProduct.get().getProducts().contains(newProduct));
     }
 }
