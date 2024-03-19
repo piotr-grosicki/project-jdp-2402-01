@@ -7,6 +7,7 @@ import com.kodilla.ecommercee.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,11 +24,16 @@ public class GroupMapper {
         group.setName(groupDto.getName());
         group.setDescription(groupDto.getDescription());
 
-        List<Product> products = groupDto.getProductsIds().stream()
-                .map(p -> productRepository.findByIdAndActiveTrue(p))
-                .filter(Optional::isPresent)
-                .map(Optional::get)
-                .toList();
+        List<Product> products;
+        try {
+            products = groupDto.getProductsIds().stream()
+                    .map(p -> productRepository.findByIdAndActiveTrue(p))
+                    .filter(Optional::isPresent)
+                    .map(Optional::get)
+                    .toList();
+        } catch (NullPointerException e) {
+            products = new ArrayList<>();
+        }
 
         group.setProducts(products);
         group.setActive(groupDto.isActive());
@@ -41,9 +47,15 @@ public class GroupMapper {
         groupDto.setName(group.getName());
         groupDto.setDescription(group.getDescription());
 
-        List<Long> productsIds = group.getProducts().stream()
-                .map(Product::getId)
-                .toList();
+        List<Long> productsIds = new ArrayList<>();
+        try {
+            productsIds = group.getProducts().stream()
+                    .filter(Product::isActive)
+                    .map(Product::getId)
+                    .toList();
+        } catch (NullPointerException e) {
+            productsIds = new ArrayList<>();
+        }
 
         groupDto.setProductsIds(productsIds);
         groupDto.setActive(group.isActive());
