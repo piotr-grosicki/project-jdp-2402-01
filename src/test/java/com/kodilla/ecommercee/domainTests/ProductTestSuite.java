@@ -8,6 +8,7 @@ import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 @Transactional
@@ -83,7 +85,7 @@ public class ProductTestSuite {
     }
     @Test
     public void testDeleteProduct() {
-    // Given
+        // Given
         Product product = new Product();
         product.setName("Test Product");
         product.setDescription("Test Description");
@@ -91,11 +93,13 @@ public class ProductTestSuite {
         product.setActive(true);
         Product savedProduct = productRepository.save(product);
 
-    // When
-        productRepository.deleteById(savedProduct.getId());
+        // When
+        productRepository.delete(savedProduct);
 
-    // Then
-        assertNull(productRepository.findById(savedProduct.getId()).orElse(null), "Product should be deleted");
+        // Then
+        Optional<Product> deletedProductOptional = productRepository.findById(savedProduct.getId());
+        Assertions.assertTrue(deletedProductOptional.isPresent());
+        Assertions.assertFalse(deletedProductOptional.get().isActive());
     }
     @Test
     public void testUpdateProduct() {
