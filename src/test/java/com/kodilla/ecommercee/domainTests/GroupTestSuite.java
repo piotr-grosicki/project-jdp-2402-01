@@ -36,7 +36,7 @@ public class GroupTestSuite {
         productOne.setName("productOne");
         productOne.setDescription("descOne");
         productOne.setPrice(BigDecimal.valueOf(11.11));
-        productTwo.setActive(true);
+        productOne.setActive(true);
 
         productTwo.setName("productTwo");
         productTwo.setDescription("descTwo");
@@ -192,12 +192,18 @@ public class GroupTestSuite {
         List<Group> allGroups = groupRepository.findAll();
         Optional<Group> deactivatedGroup = groupRepository.findById(groupOne.getId());
         List<Product> allProducts = productRepository.findAll();
+        Optional<Product> retrievedProductOne = productRepository.findById(productOne.getId());
+        Optional<Product> retrievedProductTwo = productRepository.findById(productTwo.getId());
 
         //Then
         assertEquals(1, allGroups.size());
         assertTrue(deactivatedGroup.isPresent());
         assertFalse(deactivatedGroup.get().isActive());
         assertEquals(2, allProducts.size());
+        assertTrue(retrievedProductOne.isPresent());
+        assertTrue(retrievedProductOne.get().isActive());
+        assertTrue(retrievedProductTwo.isPresent());
+        assertTrue(retrievedProductTwo.get().isActive());
     }
 
     @Test
