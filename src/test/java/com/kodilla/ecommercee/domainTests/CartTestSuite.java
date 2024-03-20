@@ -40,7 +40,7 @@ public class CartTestSuite {
     User user = new User(null, "Someone", "password123", false, "blahblah", new ArrayList<>(), new ArrayList<>(), true);
 
     @AfterEach
-    void tearDown() {
+    public void CleanUp() {
         cartRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
@@ -49,7 +49,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void testCreateCart() {
+    public void testCreateCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -63,7 +63,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void testDeleteCart() {
+    public void testDeleteCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -78,7 +78,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void testGetCartById() {
+    public void testGetCartById() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -88,11 +88,12 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
+        assertTrue(retrievedCart.isPresent());
         assertEquals(retrievedCart.get().getId(), savedCart.getId());
     }
 
     @Test
-    void testAddProductToCart() {
+    public void testAddProductToCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -116,12 +117,13 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
+        assertTrue(retrievedCart.isPresent());
         assertEquals("Chocolate", retrievedCart.get().getProducts().get(1).getName());
         assertTrue(retrievedCart.get().getProducts().get(1).isActive());
     }
 
     @Test
-    void testRemoveProductFromCart() {
+    public void testRemoveProductFromCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
@@ -156,7 +158,7 @@ public class CartTestSuite {
     }
 
     @Test
-    void testCreateOrderFromCart() {
+    public void testCreateOrderFromCart() {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(null, user, new ArrayList<>(), true);
