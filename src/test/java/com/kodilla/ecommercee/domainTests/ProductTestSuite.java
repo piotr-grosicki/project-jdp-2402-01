@@ -8,6 +8,7 @@ import com.kodilla.ecommercee.repository.GroupRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class ProductTestSuite {
     ProductRepository productRepository;
     @Autowired
     GroupRepository groupRepository;
+    @AfterEach
+    public void cleanup() {
+        productRepository.deleteAll();
+        groupRepository.deleteAll();
+    }
 
     @Test
     public void testAddProductToDatabase() {
@@ -115,7 +121,7 @@ public class ProductTestSuite {
         savedProduct.setName("Updated Product Name");
         savedProduct.setDescription("Updated Description");
         savedProduct.setPrice(BigDecimal.valueOf(20.00));
-        savedProduct.setActive(true); // Change active status to true
+        savedProduct.setActive(true);
         Product updatedProduct = productRepository.save(savedProduct);
 
     // Then
@@ -126,4 +132,31 @@ public class ProductTestSuite {
         assertEquals(BigDecimal.valueOf(20.00), updatedProduct.getPrice());
         assertTrue(updatedProduct.isActive());
 
-}}
+}
+    @Test
+    public void testFindAllActiveProducts() {
+    // Given
+        Product product1 = new Product();
+        product1.setName("Active Product 1");
+        product1.setDescription("Test Description 1");
+        product1.setPrice(BigDecimal.valueOf(15.00));
+        product1.setActive(true);
+        productRepository.save(product1);
+
+        Product product2 = new Product();
+        product2.setName("Inactive Product");
+        product2.setDescription("Test Description 2");
+        product2.setPrice(BigDecimal.valueOf(20.00));
+        product2.setActive(false);
+        productRepository.save(product2);
+
+    // When
+        List<Product> activeProducts = productRepository.findAllByActiveTrue();
+
+    // Then
+        assertEquals(1, activeProducts.size());
+        assertEquals("Active Product 1", activeProducts.get(0).getName());
+    }
+
+
+}
