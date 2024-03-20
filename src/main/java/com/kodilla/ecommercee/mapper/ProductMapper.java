@@ -1,27 +1,21 @@
 package com.kodilla.ecommercee.mapper;
 
-import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.ProductDto;
 import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.repository.GroupRepository;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.stereotype.Component;
-=======
->>>>>>> 22b9c158206ba60565769c903a9c2e777f256610
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
+@RequiredArgsConstructor
 public class ProductMapper {
 
-    private GroupRepository groupRepository;
-    public static Logger LOGGER = LoggerFactory.getLogger(ProductMapper.class);
+    private final GroupRepository groupRepository;
 
     public Product mapToProduct(final ProductDto productDto) throws GroupNotFoundException {
         Product product = new Product();

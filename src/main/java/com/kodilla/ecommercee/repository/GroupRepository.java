@@ -20,7 +20,5 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
         save(entity);
     }
 
-    List<Group> findAllByActiveTrue();
-
     Optional<Group> findByIdAndActiveTrue(Long id);
 }
