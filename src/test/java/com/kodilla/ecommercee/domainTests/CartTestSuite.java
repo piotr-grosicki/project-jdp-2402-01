@@ -147,7 +147,7 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
         List<Product> retrievedProducts = retrievedCart.get().getProducts();
         retrievedProducts.remove(pistachios);
-        cart.setProducts((retrievedProducts));
+        cart.setProducts(retrievedProducts);
         savedCart = cartRepository.save(cart);
         retrievedCart = cartRepository.findById(savedCart.getId());
         System.out.println(retrievedCart.get().getProducts().size());
