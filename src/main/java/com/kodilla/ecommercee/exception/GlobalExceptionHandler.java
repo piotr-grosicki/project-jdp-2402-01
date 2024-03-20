@@ -12,12 +12,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException exception) {
-        return new ResponseEntity<>("Product with given parameter does not exist", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Product with given parameter does not exist", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
-        return new ResponseEntity<>("Group with given parameter does not exist", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>("Group with given parameter does not exist", HttpStatus.NOT_FOUND);
     }
 
 }

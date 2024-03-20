@@ -8,15 +8,15 @@ import com.kodilla.ecommercee.repository.GroupRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Component
 public class ProductMapper {
 
-    @Autowired
     private GroupRepository groupRepository;
     public static Logger LOGGER = LoggerFactory.getLogger(ProductMapper.class);
 
@@ -27,15 +27,8 @@ public class ProductMapper {
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setActive(productDto.isActive());
+        product.setGroup(groupRepository.findByIdAndActiveTrue(productDto.getGroupId()).orElseThrow(GroupNotFoundException::new));
 
-        Optional<Group> optionalGroup = groupRepository.findByIdAndActiveTrue(productDto.getGroup_id());
-        if (optionalGroup.isPresent()) {
-            Group group = optionalGroup.get();
-            product.setGroup(group);
-        } else {
-            product.setGroup(null);
-            throw new GroupNotFoundException();
-        }
         return product;
     }
 
@@ -46,12 +39,8 @@ public class ProductMapper {
         productDto.setDescription(product.getDescription());
         productDto.setPrice(product.getPrice());
         productDto.setActive(product.isActive());
-        try {
-            productDto.setGroup_id(product.getGroup().getId());
-        } catch (NullPointerException e) {
-            productDto.setGroup_id(null);
-            LOGGER.info("Group with given 'id' not found");
-        }
+        productDto.setGroupId(product.getGroup().getId());
+
         return productDto;
     }
 
