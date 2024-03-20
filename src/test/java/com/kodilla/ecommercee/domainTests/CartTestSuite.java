@@ -40,7 +40,7 @@ public class CartTestSuite {
     User user = new User(null, "Someone", "password123", false, "blahblah", new ArrayList<>(), new ArrayList<>(), true);
 
     @AfterEach
-    void tearDown() {
+    public void CleanUp() {
         cartRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
