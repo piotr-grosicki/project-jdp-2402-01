@@ -37,10 +37,4 @@ public class Group {
         this.name = name;
         this.description = description;
     }
-
-    public Group(String name, String description, List<Product> products) {
-        this.name = name;
-        this.description = description;
-        this.products = products;
-    }
 }
