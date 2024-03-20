@@ -6,11 +6,9 @@ import com.kodilla.ecommercee.exception.GroupNotFoundException;
 import com.kodilla.ecommercee.mapper.GroupMapper;
 import com.kodilla.ecommercee.service.GroupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -32,7 +30,7 @@ public class GroupController {
         return ResponseEntity.ok(groupMapper.mapToGroupDto(groupService.getGroup(groupId)));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
             Group group = groupMapper.mapToGroup(groupDto);
             groupService.saveGroup(group);
@@ -46,8 +44,6 @@ public class GroupController {
         return ResponseEntity.ok(groupMapper.mapToGroupDto(savedGroup));
     }
 
-    //dopiero teraz zauważyłem że w poleceniu nie ma tego endpointa,
-    // ale tyle o nim gadałem że go wrzucę, jak coś to usuniemy
     @DeleteMapping(value = "{groupId}")
     public ResponseEntity<Void> deleteGroup(@PathVariable Long groupId) throws GroupNotFoundException {
         groupService.deleteGroup(groupId);
