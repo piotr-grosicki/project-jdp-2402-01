@@ -51,7 +51,6 @@ public class UserTestSuite {
         assertTrue(retrievedUser.isPresent());
         assertEquals("testUsername", retrievedUser.get().getUsername());
         assertEquals("testPassword", retrievedUser.get().getPassword());
-
     }
 
     @Test
@@ -59,7 +58,6 @@ public class UserTestSuite {
         // Given
         User user = new User(null, "testUsername", "testPassword",
                 false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
-
         User savedUser = userRepository.save(user);
 
         //When
@@ -72,7 +70,6 @@ public class UserTestSuite {
         assertTrue(updatedUser.isPresent());
         assertEquals("newUsername", updatedUser.get().getUsername());
         assertEquals("newPassword", updatedUser.get().getPassword());
-
     }
 
     @Test
@@ -89,7 +86,6 @@ public class UserTestSuite {
         //Then
         assertTrue(deactivatedUser.isPresent());
         assertFalse(deactivatedUser.get().isActive());
-
     }
 
     @Test
@@ -109,7 +105,6 @@ public class UserTestSuite {
         // Then
         assertTrue(retrievedUser.isPresent());
         assertFalse(retrievedUser.get().getOrders().isEmpty());
-
     }
 
     @Test
@@ -129,6 +124,5 @@ public class UserTestSuite {
         assertTrue(retrievedUser.isPresent());
         assertFalse(retrievedUser.get().getCarts().isEmpty());
         assertNotNull(retrievedUser.get());
-
     }
 }

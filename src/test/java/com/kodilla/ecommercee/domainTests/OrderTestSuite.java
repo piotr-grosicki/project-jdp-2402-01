@@ -4,13 +4,14 @@ import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -25,7 +26,7 @@ public class OrderTestSuite {
     }
 
     @Test
-    public void saveOrderTest() {
+    public void testSaveOrder() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -35,14 +36,13 @@ public class OrderTestSuite {
         Order savedOrder = orderRepository.save(order);
 
         //Then
-        Assertions.assertTrue(savedOrder.isActive());
-        Assertions.assertEquals("Order-1", savedOrder.getOrderNumber());
-        Assertions.assertNotNull(savedOrder.getId());
-
+        assertTrue(savedOrder.isActive());
+        assertEquals("Order-1", savedOrder.getOrderNumber());
+        assertNotNull(savedOrder.getId());
     }
 
     @Test
-    public void findOrderByIdTest() {
+    public void testFindOrderById() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -52,14 +52,14 @@ public class OrderTestSuite {
         Optional<Order> foundOrderOptional = orderRepository.findById(savedOrder.getId());
 
         //Then
-        Assertions.assertTrue(foundOrderOptional.isPresent());
+        assertTrue(foundOrderOptional.isPresent());
         Order foundOrder = foundOrderOptional.get();
-        Assertions.assertEquals("Order-1", foundOrder.getOrderNumber());
-        Assertions.assertEquals(savedOrder.getId(), foundOrder.getId());
+        assertEquals("Order-1", foundOrder.getOrderNumber());
+        assertEquals(savedOrder.getId(), foundOrder.getId());
     }
 
     @Test
-    public void updateOrderTest() {
+    public void testUpdateOrder() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -70,12 +70,12 @@ public class OrderTestSuite {
         Order updatedOrder = orderRepository.save(savedOrder);
 
         //Then
-        Assertions.assertEquals(savedOrder.getId(), updatedOrder.getId());
-        Assertions.assertEquals("Order-3", updatedOrder.getOrderNumber());
+        assertEquals(savedOrder.getId(), updatedOrder.getId());
+        assertEquals("Order-3", updatedOrder.getOrderNumber());
     }
 
     @Test
-    public void deleteOrderTest() {
+    public void testDeleteOrder() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -84,15 +84,15 @@ public class OrderTestSuite {
 
         //When
         orderRepository.delete(savedOrder);
+        Optional<Order> deletedOrderOptional = orderRepository.findById(savedOrder.getId());
 
         //Then
-        Optional<Order> deletedOrderOptional = orderRepository.findById(savedOrder.getId());
-        Assertions.assertTrue(deletedOrderOptional.isPresent());
-        Assertions.assertFalse(deletedOrderOptional.get().isActive());
+        assertTrue(deletedOrderOptional.isPresent());
+        assertFalse(deletedOrderOptional.get().isActive());
     }
 
     @Test
-    public void findAllByActiveTrueTest() {
+    public void testFindAllByActiveTrue() {
         //Given
         Order activeOrder = new Order();
         activeOrder.setOrderNumber("Order-1");
@@ -108,8 +108,7 @@ public class OrderTestSuite {
         List<Order> activeOrders = orderRepository.findAllByActiveTrue();
 
         //Then
-        Assertions.assertTrue(activeOrders.get(0).isActive());
-        Assertions.assertEquals(1, activeOrders.size());
+        assertTrue(activeOrders.get(0).isActive());
+        assertEquals(1, activeOrders.size());
     }
 }
-
