@@ -12,6 +12,6 @@ public class GroupDto {
     private Long id;
     private String name;
     private String description;
-    private List<Product> products = new ArrayList<>();
+    private List<Long> productsIds = new ArrayList<>();
     private boolean active;
 }
