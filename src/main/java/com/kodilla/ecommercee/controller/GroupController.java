@@ -19,14 +19,6 @@ public class GroupController {
         return productGroups;
     }
 
-    @PostMapping
-    public GroupDto addGroup(@RequestBody GroupDto group) {
-        group.setId(nextGroupId);
-        nextGroupId++;
-        productGroups.add(group);
-        return group;
-    }
-
     @GetMapping("/{groupId}")
     public ResponseEntity<GroupDto> getGroupById(@PathVariable("groupId") Long groupId) {
         for (GroupDto group : productGroups) {
@@ -35,6 +27,14 @@ public class GroupController {
             }
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping
+    public GroupDto addGroup(@RequestBody GroupDto group) {
+        group.setId(nextGroupId);
+        nextGroupId++;
+        productGroups.add(group);
+        return group;
     }
 
     @PutMapping("/{groupId}")
