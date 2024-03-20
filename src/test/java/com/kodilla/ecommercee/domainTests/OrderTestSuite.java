@@ -20,12 +20,12 @@ public class OrderTestSuite {
     private OrderRepository orderRepository;
 
     @AfterEach
-    void tearDown() {
+    public void cleanUp() {
         orderRepository.deleteAll();
     }
 
     @Test
-    void saveOrderTest() {
+    public void saveOrderTest() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -35,13 +35,14 @@ public class OrderTestSuite {
         Order savedOrder = orderRepository.save(order);
 
         //Then
-        Assertions.assertNotNull(savedOrder.getId());
-        Assertions.assertEquals("Order-1", savedOrder.getOrderNumber());
         Assertions.assertTrue(savedOrder.isActive());
+        Assertions.assertEquals("Order-1", savedOrder.getOrderNumber());
+        Assertions.assertNotNull(savedOrder.getId());
+
     }
 
     @Test
-    void findOrderByIdTest() {
+    public void findOrderByIdTest() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -53,12 +54,12 @@ public class OrderTestSuite {
         //Then
         Assertions.assertTrue(foundOrderOptional.isPresent());
         Order foundOrder = foundOrderOptional.get();
-        Assertions.assertEquals(savedOrder.getId(), foundOrder.getId());
         Assertions.assertEquals("Order-1", foundOrder.getOrderNumber());
+        Assertions.assertEquals(savedOrder.getId(), foundOrder.getId());
     }
 
     @Test
-    void updateOrderTest() {
+    public void updateOrderTest() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -74,7 +75,7 @@ public class OrderTestSuite {
     }
 
     @Test
-    void deleteOrderTest() {
+    public void deleteOrderTest() {
         //Given
         Order order = new Order();
         order.setOrderNumber("Order-1");
@@ -91,7 +92,7 @@ public class OrderTestSuite {
     }
 
     @Test
-    void findAllByActiveTrueTest() {
+    public void findAllByActiveTrueTest() {
         //Given
         Order activeOrder = new Order();
         activeOrder.setOrderNumber("Order-1");
@@ -107,8 +108,8 @@ public class OrderTestSuite {
         List<Order> activeOrders = orderRepository.findAllByActiveTrue();
 
         //Then
-        Assertions.assertEquals(1, activeOrders.size());
         Assertions.assertTrue(activeOrders.get(0).isActive());
+        Assertions.assertEquals(1, activeOrders.size());
     }
 }
 
