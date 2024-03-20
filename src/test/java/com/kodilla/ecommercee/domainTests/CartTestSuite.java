@@ -190,6 +190,7 @@ public class CartTestSuite {
         retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
+        assertTrue(retrievedOrder.isPresent());
         assertEquals(2, retrievedOrder.get().getProducts().size());
         assertEquals("Pistachios", retrievedOrder.get().getProducts().get(0).getName());
         assertEquals(Optional.empty(), retrievedCart);
