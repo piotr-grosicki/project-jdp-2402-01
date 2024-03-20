@@ -4,7 +4,6 @@ import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.repository.*;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 
 @SpringBootTest
@@ -36,7 +37,6 @@ public class CartTestSuite {
     @Autowired
     private OrderRepository orderRepository;
 
-
     User user = new User(null, "Someone", "password123", false, "blahblah", new ArrayList<>(), new ArrayList<>(), true);
 
     @AfterEach
@@ -58,8 +58,8 @@ public class CartTestSuite {
         Cart savedCart = cartRepository.save(cart);
 
         //Then
-        Assertions.assertNotNull(savedCart.getId());
-        Assertions.assertTrue(savedCart.isActive());
+        assertNotNull(savedCart.getId());
+        assertTrue(savedCart.isActive());
     }
 
     @Test
@@ -73,8 +73,8 @@ public class CartTestSuite {
         cartRepository.delete(cart);
 
         //Then
-        Assertions.assertNotNull(savedCart.getId());
-        Assertions.assertFalse(savedCart.isActive());
+        assertNotNull(savedCart.getId());
+        assertFalse(savedCart.isActive());
     }
 
     @Test
@@ -88,9 +88,8 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
-        Assertions.assertEquals(retrievedCart.get().getId(), savedCart.getId());
+        assertEquals(retrievedCart.get().getId(), savedCart.getId());
     }
-
 
     @Test
     void testAddProductToCart() {
@@ -117,8 +116,8 @@ public class CartTestSuite {
         Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
-        Assertions.assertEquals("Chocolate", retrievedCart.get().getProducts().get(1).getName());
-        Assertions.assertTrue(retrievedCart.get().getProducts().get(1).isActive());
+        assertEquals("Chocolate", retrievedCart.get().getProducts().get(1).getName());
+        assertTrue(retrievedCart.get().getProducts().get(1).isActive());
     }
 
     @Test
@@ -152,8 +151,8 @@ public class CartTestSuite {
         System.out.println(retrievedCart.get().getProducts().size());
 
         //Then
-        Assertions.assertEquals(1, retrievedCart.get().getProducts().size());
-        Assertions.assertFalse(retrievedCart.get().getProducts().contains(pistachios));
+        assertEquals(1, retrievedCart.get().getProducts().size());
+        assertFalse(retrievedCart.get().getProducts().contains(pistachios));
     }
 
     @Test
@@ -189,10 +188,9 @@ public class CartTestSuite {
         retrievedCart = cartRepository.findById(savedCart.getId());
 
         //Then
-        Assertions.assertEquals(2, retrievedOrder.get().getProducts().size());
-        Assertions.assertEquals("Pistachios", retrievedOrder.get().getProducts().get(0).getName());
-        Assertions.assertEquals(Optional.empty(), retrievedCart);
-
+        assertEquals(2, retrievedOrder.get().getProducts().size());
+        assertEquals("Pistachios", retrievedOrder.get().getProducts().get(0).getName());
+        assertEquals(Optional.empty(), retrievedCart);
     }
 
 }
