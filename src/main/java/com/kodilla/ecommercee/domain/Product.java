@@ -38,5 +38,5 @@ public class Product {
     private List<Order> orders;
 
     @Column(name = "ACTIVE",  nullable = false)
-    private boolean active;
+    private boolean active = true;
 }

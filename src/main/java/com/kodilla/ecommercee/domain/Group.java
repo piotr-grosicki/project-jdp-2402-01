@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -27,8 +28,19 @@ public class Group {
             mappedBy = "group",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
-    @Column(name = "ACTIVE",  nullable = false)
-    private boolean active;
+    @Column(name = "ACTIVE", nullable = false)
+    private boolean active = true;
+
+    public Group(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    public Group(String name, String description, List<Product> products) {
+        this.name = name;
+        this.description = description;
+        this.products = products;
+    }
 }
