@@ -37,7 +37,7 @@ public class CartTestSuite {
     Group group = new Group("food", "things to eat");
 
     @AfterEach
-    public void CleanUp() {
+    public void cleanUp() {
         cartRepository.deleteAll();
         userRepository.deleteAll();
         productRepository.deleteAll();
@@ -51,10 +51,11 @@ public class CartTestSuite {
         Cart cart = new Cart(user);
 
         //When
-        Cart savedCart = cartRepository.save(cart);
-        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        cartRepository.save(cart);
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
         //Then
+        assertTrue(retrievedCart.isPresent());
         assertNotNull(retrievedCart.get().getId());
         assertTrue(retrievedCart.get().isActive());
     }
@@ -64,13 +65,14 @@ public class CartTestSuite {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(user);
-        Cart savedCart = cartRepository.save(cart);
+        cartRepository.save(cart);
 
         //When
         cartRepository.delete(cart);
-        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
         //Then
+        assertTrue(retrievedCart.isPresent());
         assertNotNull(retrievedCart.get().getId());
         assertFalse(retrievedCart.get().isActive());
     }
@@ -80,14 +82,14 @@ public class CartTestSuite {
         //Given
         userRepository.save(user);
         Cart cart = new Cart(user);
-        Cart savedCart = cartRepository.save(cart);
+        cartRepository.save(cart);
 
         //When
-        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
         //Then
         assertTrue(retrievedCart.isPresent());
-        assertEquals(retrievedCart.get().getId(), savedCart.getId());
+        assertEquals(cart.getId(), retrievedCart.get().getId());
     }
 
     @Test
@@ -104,8 +106,8 @@ public class CartTestSuite {
 
         //When
         cart.getProducts().add(chocolate);
-        Cart savedCart = cartRepository.save(cart);
-        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        cartRepository.save(cart);
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
 
         //Then
         assertTrue(retrievedCart.isPresent());
@@ -125,17 +127,18 @@ public class CartTestSuite {
         productRepository.save(chocolate);
         cart.getProducts().add(pistachios);
         cart.getProducts().add(chocolate);
-        Cart savedCart = cartRepository.save(cart);
+        cartRepository.save(cart);
 
         //When
-        Optional<Cart> retrievedCart = cartRepository.findById(savedCart.getId());
+        Optional<Cart> retrievedCart = cartRepository.findById(cart.getId());
         List<Product> retrievedProducts = retrievedCart.get().getProducts();
         retrievedProducts.remove(pistachios);
         cart.setProducts(retrievedProducts);
-        savedCart = cartRepository.save(cart);
-        retrievedCart = cartRepository.findById(savedCart.getId());
+        cartRepository.save(cart);
+        retrievedCart = cartRepository.findById(cart.getId());
 
         //Then
+        assertEquals(1, cartRepository.findAll().size());
         assertFalse(retrievedCart.get().getProducts().contains(pistachios));
         assertEquals(1, retrievedCart.get().getProducts().size());
     }
