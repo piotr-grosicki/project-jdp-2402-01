@@ -22,32 +22,33 @@ public class CartService {
 
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
-
+    //private final ProductService productService;
     public Cart addCart(final Cart cart) {
         return cartRepository.save(cart);
     }
 
     public Cart getCart(final Long cartId) throws CartNotFoundException {
         return cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
     }
 
     public List<Product> getProductsFromCart(final Long cartId) throws CartNotFoundException {
         List<Product> productsList = cartRepository.findByIdAndActiveTrue(cartId).map(Cart::getProducts)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
         return productsList;
     }
-
-    public Cart addProductToCart(final Long cartId, final Product product) throws CartNotFoundException {
+/*
+    public Cart addProductToCart(final Long cartId, final Long productId) throws CartNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
+        Product product = productService.getProduct(productId);
         cart.getProducts().add(product);
         return cartRepository.save(cart);
     }
-
+*/
     public Product getProductFromCart(Long cartId, Long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
         for (Product product : cart.getProducts()) {
             if (product.getId().equals(productId)) {
                 return product;
@@ -58,14 +59,14 @@ public class CartService {
 
     public Cart deleteProductFromCart(final Long cartId, final Product product) throws CartNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
         cart.getProducts().remove(product);
         return cartRepository.save(cart);
     }
     @Transactional
     public Order createOrderFromCart(final Long cartId) throws CartNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(() -> new CartNotFoundException(cartId));
+                .orElseThrow(() -> new CartNotFoundException());
 
         Order order = new Order();
         order.setUser(cart.getUser());

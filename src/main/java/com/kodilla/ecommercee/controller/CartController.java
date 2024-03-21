@@ -7,28 +7,27 @@ import com.kodilla.ecommercee.mapper.CartMapper;
 import com.kodilla.ecommercee.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/cart")
+@RequestMapping("/carts")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartMapper cartMapper;
     private final CartService cartService;
-    //private final ProductService productService;
+
 
 
 
     @GetMapping("/{cartId}")
-    public CartDto getCartById(@PathVariable Long cartId) throws CartNotFoundException {
+    public ResponseEntity<CartDto> getCartById(@PathVariable Long cartId) throws CartNotFoundException {
         Cart cart = cartService.getCart(cartId);
-        return cartMapper.mapToCartDto(cart);
+        return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) throws CartNotFoundException {
         Cart cart = cartMapper.mapToCart(cartDto);
@@ -38,8 +37,7 @@ public class CartController {
 /*
      @PutMapping("/add/{cartId}/{productId}")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException, ProductNotFoundException {
-        Product product = productService.getProduct(productId);
-        Cart cart = cartService.addProductToCart(cartId, product);
+        Cart cart = cartService.addProductToCart(cartId, productId);
         return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
 */
