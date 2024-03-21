@@ -25,7 +25,7 @@ public class User {
     private String password;
 
     @Column(name ="BLOCKED", nullable = false)
-    private boolean blocked;
+    private boolean blocked = false;
 
     @Column(name = "API_KEY")
     private String apiKey;
@@ -47,5 +47,11 @@ public class User {
     private List<Order> orders = new ArrayList<>();
 
     @Column(name = "ACTIVE",  nullable = false)
-    private boolean active;
+    private boolean active = true;
+
+    public User(String username, String password, String apiKey) {
+        this.username = username;
+        this.password = password;
+        this.apiKey = apiKey;
+    }
 }
