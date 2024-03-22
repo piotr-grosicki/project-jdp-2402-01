@@ -21,6 +21,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
-        return new ResponseEntity<>("The order you are looking for does not exist", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("The order you are looking for does not exist. Error:" + exception, HttpStatus.NOT_FOUND);
     }
 }
