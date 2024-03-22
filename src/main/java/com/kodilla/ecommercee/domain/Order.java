@@ -22,7 +22,7 @@ public class Order {
     private String orderNumber;
 
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -35,4 +35,9 @@ public class Order {
 
     @Column(name = "ACTIVE",  nullable = false)
     private boolean active = true;
+
+    public Order(String orderNumber, User user) {
+        this.orderNumber = orderNumber;
+        this.user = user;
+    }
 }
