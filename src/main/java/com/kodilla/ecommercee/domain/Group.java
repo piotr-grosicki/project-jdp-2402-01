@@ -30,5 +30,10 @@ public class Group {
     private List<Product> products;
 
     @Column(name = "ACTIVE",  nullable = false)
-    private boolean active;
+    private boolean active = true;
+
+    public Group(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
 }
