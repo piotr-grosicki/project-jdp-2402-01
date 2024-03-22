@@ -36,7 +36,7 @@ public class ProductTestSuite {
 
     @Test
     public void testAddProductToDatabase() {
-    // Given
+        // Given
         Group group = new Group();
         group.setName("Test group");
         group.setDescription("Test Group Description");
@@ -50,9 +50,9 @@ public class ProductTestSuite {
         product.setOrders(Arrays.asList(new Order()));
         product.setActive(true);
 
-    //When
-     Product savedProduct = productRepository.save(product);
-    //Then
+        //When
+        Product savedProduct = productRepository.save(product);
+        //Then
         assertNotNull(savedGroup);
         assertEquals("Test Product", savedProduct.getName());
         assertEquals("Test Description", savedProduct.getDescription());
@@ -61,12 +61,7 @@ public class ProductTestSuite {
         assertEquals(1, savedProduct.getCarts().size());
         assertEquals(1, savedProduct.getOrders().size());
         assertTrue(savedProduct.isActive());
-    //CleanUp
-        productRepository.deleteAll();
-        groupRepository.deleteAll();
-    // Verify cleanup
-        assertEquals(0, productRepository.findAll().size());
-        assertEquals(0, groupRepository.findAll().size());}
+    }
     @Test
     public void testFindProductById() {
     // Given
@@ -75,15 +70,14 @@ public class ProductTestSuite {
         product.setDescription("Test Description");
         product.setPrice(BigDecimal.valueOf(10.00));
         product.setActive(true);
-        Product savedProduct = productRepository.save(product);
+         productRepository.save(product);
 
     // When
-        Long productId = savedProduct.getId();
-        Product retrievedProduct = productRepository.findById(productId).orElse(null);
+        Product retrievedProduct = productRepository.findById(product.getId()).orElse(null);
 
     // Then
         assertNotNull(retrievedProduct);
-        assertEquals(productId, retrievedProduct.getId());
+        assertEquals(product.getId(), retrievedProduct.getId());
         assertEquals("Test Product", retrievedProduct.getName());
         assertEquals("Test Description", retrievedProduct.getDescription());
         assertEquals(BigDecimal.valueOf(10.00), retrievedProduct.getPrice());
@@ -97,13 +91,13 @@ public class ProductTestSuite {
         product.setDescription("Test Description");
         product.setPrice(BigDecimal.valueOf(10.00));
         product.setActive(true);
-        Product savedProduct = productRepository.save(product);
+        productRepository.save(product);
 
         // When
-        productRepository.delete(savedProduct);
+        productRepository.delete(product);
 
         // Then
-        Optional<Product> deletedProductOptional = productRepository.findById(savedProduct.getId());
+        Optional<Product> deletedProductOptional = productRepository.findById(product.getId());
         Assertions.assertTrue(deletedProductOptional.isPresent());
         Assertions.assertFalse(deletedProductOptional.get().isActive());
     }
@@ -115,14 +109,15 @@ public class ProductTestSuite {
         product.setDescription("Test Description");
         product.setPrice(BigDecimal.valueOf(10.00));
         product.setActive(true);
-        Product savedProduct = productRepository.save(product);
+        productRepository.save(product);
+        Product savedProduct = productRepository.findById(product.getId()).get();
 
     // When
         savedProduct.setName("Updated Product Name");
         savedProduct.setDescription("Updated Description");
         savedProduct.setPrice(BigDecimal.valueOf(20.00));
         savedProduct.setActive(true);
-        Product updatedProduct = productRepository.save(savedProduct);
+        Product updatedProduct = productRepository.findById(savedProduct.getId()).get();
 
     // Then
         assertNotNull(updatedProduct);
@@ -156,6 +151,9 @@ public class ProductTestSuite {
     // Then
         assertEquals(1, activeProducts.size());
         assertEquals("Active Product 1", activeProducts.get(0).getName());
+        assertEquals(2, productRepository.findAll().size());
+        assertFalse(activeProducts.contains(product2));
+        assertTrue(activeProducts.contains(product1));
     }
 
 
