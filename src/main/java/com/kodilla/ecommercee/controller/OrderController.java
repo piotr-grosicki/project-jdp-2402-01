@@ -48,6 +48,6 @@ public class OrderController {
         log.info("Deleting ORDER(id={})", orderId);
         orderService.deleteOrder(orderId);
         log.info("ORDER(id={} deleted)", orderId);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 }
