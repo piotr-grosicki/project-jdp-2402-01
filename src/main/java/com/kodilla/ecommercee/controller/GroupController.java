@@ -32,9 +32,9 @@ public class GroupController {
 
     @PostMapping
     public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
-            Group group = groupMapper.mapToGroup(groupDto);
-            groupService.saveGroup(group);
-            return ResponseEntity.ok().build();
+        Group group = groupMapper.mapToGroup(groupDto);
+        groupService.saveGroup(group);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
