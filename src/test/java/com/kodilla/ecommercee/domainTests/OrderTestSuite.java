@@ -100,9 +100,10 @@ public class OrderTestSuite {
         Optional<Order> retrievedOrder = orderRepository.findById(order.getId());
 
         //Then
+        assertTrue(retrievedOrder.isPresent());
         assertEquals(order.getId(), retrievedOrder.get().getId());
         assertEquals("Order-3", retrievedOrder.get().getOrderNumber());
-        assertEquals(user.getId(), retrievedOrder.get().getId());
+        assertEquals(user.getId(), retrievedOrder.get().getUser().getId());
     }
 
     @Test
