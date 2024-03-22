@@ -51,9 +51,7 @@ public class OrderTestSuite {
     public void testSaveOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order();
-        order.setOrderNumber("Order-1");
-        order.setUser(user);
+        Order order = new Order("Order-1", user);
 
         //When
         Order savedOrder = orderRepository.save(order);
@@ -70,9 +68,7 @@ public class OrderTestSuite {
     public void testFindOrderById() {
         //Given
         userRepository.save(user);
-        Order order = new Order();
-        order.setOrderNumber("Order-1");
-        order.setUser(user);
+        Order order = new Order("Order-1", user);
         orderRepository.save(order);
 
         //When
@@ -89,9 +85,7 @@ public class OrderTestSuite {
     public void testUpdateOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order();
-        order.setOrderNumber("Order-1");
-        order.setUser(user);
+        Order order = new Order("Order-1", user);
         orderRepository.save(order);
 
         //When
@@ -110,9 +104,7 @@ public class OrderTestSuite {
     public void testDeleteOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order();
-        order.setOrderNumber("Order-1");
-        order.setUser(user);
+        Order order = new Order("Order-1", user);
         orderRepository.save(order);
 
         //When
@@ -129,16 +121,11 @@ public class OrderTestSuite {
     public void testFindAllByActiveTrue() {
         //Given
         userRepository.save(user);
-        Order activeOrder = new Order();
-        activeOrder.setOrderNumber("Order-1");
-        activeOrder.setUser(user);
+        Order activeOrder = new Order("Order-1", user);
         orderRepository.save(activeOrder);
-        Order inactiveOrder = new Order();
-        inactiveOrder.setOrderNumber("Order-2");
-        inactiveOrder.setUser(user);
+        Order inactiveOrder = new Order("Order-2", user);
         inactiveOrder.setActive(false);
         orderRepository.save(inactiveOrder);
-
 
         //When
         List<Order> retrievedActiveOrders = orderRepository.findAllByActiveTrue();
@@ -153,9 +140,7 @@ public class OrderTestSuite {
     public void testAddProductsToOrder(){
         //Given
         userRepository.save(user);
-        Order order = new Order();
-        order.setOrderNumber("Order-1");
-        order.setUser(user);
+        Order order = new Order("Order-1", user);
         Group group = new Group("food", "things to eat");
         groupRepository.save(group);
         Product pistachios = new Product("Pistachios", "200g bag", BigDecimal.valueOf(38.99), group);

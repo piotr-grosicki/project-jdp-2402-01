@@ -28,7 +28,7 @@ public class Group {
             mappedBy = "group",
             cascade = CascadeType.ALL,
             fetch = FetchType.EAGER)
-    private List<Product> products= new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
     @Column(name = "ACTIVE",  nullable = false)
     private boolean active = true;
