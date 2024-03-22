@@ -38,7 +38,7 @@ public class Product {
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
-    @Column(name = "ACTIVE",  nullable = false)
+    @Column(name = "ACTIVE", nullable = false)
     private boolean active = true;
 
     public Product(String name, String description, BigDecimal price, Group group) {
