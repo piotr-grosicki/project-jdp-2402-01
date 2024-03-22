@@ -30,7 +30,7 @@ public class Group {
             fetch = FetchType.EAGER)
     private List<Product> products = new ArrayList<>();
 
-    @Column(name = "ACTIVE", nullable = false)
+    @Column(name = "ACTIVE",  nullable = false)
     private boolean active = true;
 
     public Group(String name, String description) {
