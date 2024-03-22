@@ -1,45 +1,53 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.OrderDto;
-import org.springframework.http.MediaType;
+import com.kodilla.ecommercee.exception.OrderNotFoundException;
+import com.kodilla.ecommercee.mapper.OrderMapper;
+import com.kodilla.ecommercee.service.OrderService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-
+@Slf4j
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
-    private List<OrderDto> allOrdersTest = new ArrayList<>();
-    private OrderDto oneOrderTest = new OrderDto(111L, "order_number", 222L, new ArrayList<>(), true);
+    private final OrderService orderService;
+    private final OrderMapper orderMapper;
 
     @GetMapping
     public ResponseEntity<List<OrderDto>> getAllOrders() {
-        return ResponseEntity.ok(allOrdersTest);
+        List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orderMapper.mapToOrderDtoList(orders));
     }
 
     @GetMapping(value = "{orderId}")
-    public ResponseEntity<OrderDto> getOrderById(@PathVariable Long orderId) {
-        return ResponseEntity.ok(oneOrderTest);
+    public ResponseEntity<OrderDto> getOrderById(@PathVariable("orderId") Long orderId) throws OrderNotFoundException {
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(orderService.getOrderById(orderId)));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> createOrder(@RequestBody OrderDto orderDto) {
-        System.out.println("The order has been created");
-        return ResponseEntity.ok().build();
-    }
+    // POST createOrderFromCart() is in package com.kodilla.ecommercee.controller.CartController
 
-    @PutMapping
-    public ResponseEntity<OrderDto> updateOrder(@RequestBody OrderDto orderDto) {
-        oneOrderTest = new OrderDto(111L, "changed_number", 222L, new ArrayList<>(), true);
-        return ResponseEntity.ok(oneOrderTest);
+    @PutMapping(value = "{orderId}")
+    public ResponseEntity<OrderDto> updateOrder(@PathVariable("orderId") Long orderId,
+                                                @RequestBody OrderDto orderDto) throws OrderNotFoundException {
+        log.info("Updating ORDER(id={})", orderId);
+        Order order = orderMapper.mapToOrder(orderDto);
+        Order savedOrder = orderService.updateOrder(orderId, order);
+        log.info("ORDER(id={} updated)", orderId);
+        return ResponseEntity.ok(orderMapper.mapToOrderDto(savedOrder));
     }
 
     @DeleteMapping(value = "{orderId}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) {
-        System.out.println("Order no." + orderId + " has been deleted");
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Void> deleteOrder(@PathVariable Long orderId) throws OrderNotFoundException {
+        log.info("Deleting ORDER(id={})", orderId);
+        orderService.deleteOrder(orderId);
+        log.info("ORDER(id={} deleted)", orderId);
+        return ResponseEntity.noContent().build();
     }
 }
