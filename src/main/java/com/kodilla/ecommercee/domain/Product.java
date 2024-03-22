@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -32,11 +33,18 @@ public class Product {
     private Group group;
 
     @ManyToMany(mappedBy = "products")
-    private List<Cart> carts;
+    private List<Cart> carts = new ArrayList<>();
 
     @ManyToMany(mappedBy = "products")
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<>();
 
     @Column(name = "ACTIVE",  nullable = false)
-    private boolean active;
+    private boolean active = true;
+
+    public Product(String name, String description, BigDecimal price, Group group) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.group = group;
+    }
 }

@@ -36,12 +36,10 @@ public class GroupTestSuite {
         productOne.setName("productOne");
         productOne.setDescription("descOne");
         productOne.setPrice(BigDecimal.valueOf(11.11));
-        productOne.setActive(true);
 
         productTwo.setName("productTwo");
         productTwo.setDescription("descTwo");
         productTwo.setPrice(BigDecimal.valueOf(22.22));
-        productTwo.setActive(true);
 
         productsListOne.add(productOne);
         productsListOne.add(productTwo);
@@ -49,7 +47,6 @@ public class GroupTestSuite {
         groupOne.setName("groupOne");
         groupOne.setDescription("descGroupOne");
         groupOne.setProducts(productsListOne);
-        groupOne.setActive(true);
     }
 
     @AfterEach
@@ -79,7 +76,7 @@ public class GroupTestSuite {
         Group groupTwo = new Group();
         groupTwo.setName("groupTwo");
         groupTwo.setDescription("descGroupTwo");
-        groupTwo.setActive(true);
+      
         groupRepository.save(groupOne);
         groupRepository.save(groupTwo);
 
@@ -96,7 +93,7 @@ public class GroupTestSuite {
         Group groupTwo = new Group();
         groupTwo.setName("groupTwo");
         groupTwo.setDescription("descGroupTwo");
-        groupTwo.setActive(true);
+      
         groupRepository.save(groupOne);
         groupRepository.save(groupTwo);
 
@@ -108,6 +105,7 @@ public class GroupTestSuite {
         assertTrue(foundGroupOne.isPresent());
         assertEquals(groupOne.getId(), foundGroupOne.get().getId());
         assertEquals(groupOne.getName(), foundGroupOne.get().getName());
+
         assertTrue(foundGroupTwo.isPresent());
         assertEquals(groupTwo.getId(), foundGroupTwo.get().getId());
         assertEquals(groupTwo.getName(), foundGroupTwo.get().getName());
@@ -119,7 +117,7 @@ public class GroupTestSuite {
         groupRepository.save(groupOne);
 
         //When
-        Group groupUpdated = groupRepository.save(groupOne);
+        Group groupUpdated = groupRepository.findById(groupOne.getId()).get();
         groupUpdated.setName("nameUpdated");
         groupUpdated.setDescription("descUpdated");
         groupRepository.save(groupUpdated);
@@ -199,6 +197,7 @@ public class GroupTestSuite {
         assertEquals(1, allGroups.size());
         assertTrue(deactivatedGroup.isPresent());
         assertFalse(deactivatedGroup.get().isActive());
+
         assertEquals(2, allProducts.size());
         assertTrue(retrievedProductOne.isPresent());
         assertTrue(retrievedProductOne.get().isActive());
@@ -230,7 +229,6 @@ public class GroupTestSuite {
         newProduct.setName("productNew");
         newProduct.setDescription("descNew");
         newProduct.setPrice(BigDecimal.valueOf(33.33));
-        newProduct.setActive(true);
 
         //When
         groupOne.getProducts().add(newProduct);
