@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,4 +55,8 @@ public class User {
         this.password = password;
         this.apiKey = apiKey;
     }
+
+    @Transient
+    private LocalDateTime apiKeyExpiration;
+
 }
