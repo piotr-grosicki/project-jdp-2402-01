@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.controller;
 import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.CartMapper;
 import com.kodilla.ecommercee.service.CartService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class CartController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) throws CartNotFoundException {
+    public ResponseEntity<Void> createCart(@RequestBody CartDto cartDto) throws CartNotFoundException, UserNotFoundException {
         Cart cart = cartMapper.mapToCart(cartDto);
         cartService.addCart(cart);
         return ResponseEntity.ok().build();

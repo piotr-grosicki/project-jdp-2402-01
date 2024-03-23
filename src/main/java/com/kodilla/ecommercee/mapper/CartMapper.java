@@ -5,6 +5,7 @@ import com.kodilla.ecommercee.domain.CartDto;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
+import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import com.kodilla.ecommercee.service.CartService;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,9 @@ public class CartMapper {
     private final UserRepository userRepository;
     private final CartService cartService;
 
-    public Cart mapToCart(final CartDto cartDto) throws CartNotFoundException {
-        User user = userRepository.findById(cartDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User with id: " + cartDto.getUserId() + " was not found."));
+    public Cart mapToCart(final CartDto cartDto) throws CartNotFoundException, UserNotFoundException {
+        User user = userRepository.findByIdAndActiveTrue(cartDto.getUserId())
+                .orElseThrow(UserNotFoundException::new);
         List<Product> productsList = cartService.getProductsFromCart(cartDto.getId());
         return new Cart(cartDto.getId(), user, productsList, cartDto.isActive());
     }
