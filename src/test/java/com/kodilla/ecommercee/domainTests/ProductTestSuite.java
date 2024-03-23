@@ -33,26 +33,17 @@ public class ProductTestSuite {
         productRepository.deleteAll();
         groupRepository.deleteAll();
     }
+    Group group = new Group("Test Group", "Test Description");
+    Product product = new Product("Test Product", "Test Description", BigDecimal.valueOf(10.00), group);
 
     @Test
     public void testAddProductToDatabase() {
         // Given
-        Group group = new Group();
-        group.setName("Test group");
-        group.setDescription("Test Group Description");
         Group savedGroup = groupRepository.save(group);
-        Product product = new Product();
-        product.setName("Test Product");
-        product.setDescription("Test Description");
-        product.setPrice(BigDecimal.valueOf(10.00));
-        product.setGroup(savedGroup);
+        Product savedProduct = productRepository.save(product);
         product.setCarts(Arrays.asList(new Cart()));
         product.setOrders(Arrays.asList(new Order()));
-        product.setActive(true);
-
-        //When
-        Product savedProduct = productRepository.save(product);
-        //Then
+        //When & Then
         assertNotNull(savedGroup);
         assertEquals("Test Product", savedProduct.getName());
         assertEquals("Test Description", savedProduct.getDescription());
@@ -65,11 +56,7 @@ public class ProductTestSuite {
     @Test
     public void testFindProductById() {
     // Given
-        Product product = new Product();
-        product.setName("Test Product");
-        product.setDescription("Test Description");
-        product.setPrice(BigDecimal.valueOf(10.00));
-        product.setActive(true);
+         groupRepository.save(group);
          productRepository.save(product);
 
     // When
@@ -86,11 +73,7 @@ public class ProductTestSuite {
     @Test
     public void testDeleteProduct() {
         // Given
-        Product product = new Product();
-        product.setName("Test Product");
-        product.setDescription("Test Description");
-        product.setPrice(BigDecimal.valueOf(10.00));
-        product.setActive(true);
+        groupRepository.save(group);
         productRepository.save(product);
 
         // When
@@ -104,11 +87,7 @@ public class ProductTestSuite {
     @Test
     public void testUpdateProduct() {
     // Given
-        Product product = new Product();
-        product.setName("Test Product");
-        product.setDescription("Test Description");
-        product.setPrice(BigDecimal.valueOf(10.00));
-        product.setActive(true);
+        groupRepository.save(group);
         productRepository.save(product);
         Product savedProduct = productRepository.findById(product.getId()).get();
 
@@ -116,7 +95,6 @@ public class ProductTestSuite {
         savedProduct.setName("Updated Product Name");
         savedProduct.setDescription("Updated Description");
         savedProduct.setPrice(BigDecimal.valueOf(20.00));
-        savedProduct.setActive(true);
         Product updatedProduct = productRepository.findById(savedProduct.getId()).get();
 
     // Then
@@ -131,17 +109,11 @@ public class ProductTestSuite {
     @Test
     public void testFindAllActiveProducts() {
     // Given
-        Product product1 = new Product();
-        product1.setName("Active Product 1");
-        product1.setDescription("Test Description 1");
-        product1.setPrice(BigDecimal.valueOf(15.00));
-        product1.setActive(true);
+        groupRepository.save(group);
+        Product product1 = new Product("Active Product 1","Test Description 1",BigDecimal.valueOf(15.00),group);
         productRepository.save(product1);
 
-        Product product2 = new Product();
-        product2.setName("Inactive Product");
-        product2.setDescription("Test Description 2");
-        product2.setPrice(BigDecimal.valueOf(20.00));
+        Product product2 = new Product("Inactive Product","Test Description 2",BigDecimal.valueOf(20.00), group);
         product2.setActive(false);
         productRepository.save(product2);
 
