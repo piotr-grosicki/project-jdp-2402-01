@@ -1,20 +1,14 @@
 package com.kodilla.ecommercee.service;
 
 import com.kodilla.ecommercee.domain.Cart;
-import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.repository.CartRepository;
-import com.kodilla.ecommercee.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +17,8 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductService productService;
     
-    public Cart addCart(final Cart cart) {
-        return cartRepository.save(cart);
+    public void addCart(final Cart cart) {
+        cartRepository.save(cart);
     }
 
     public Cart getCart(final Long cartId) throws CartNotFoundException {
@@ -63,5 +57,4 @@ public class CartService {
         cart.getProducts().remove(product);
         return cartRepository.save(cart);
     }
-   
 }

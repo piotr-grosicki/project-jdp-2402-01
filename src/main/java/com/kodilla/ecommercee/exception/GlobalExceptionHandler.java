@@ -14,11 +14,6 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>("Cart with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException exception) {
-        return new ResponseEntity<>("Product with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
-    }
-
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
         return new ResponseEntity<>("Group with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
@@ -27,6 +22,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(OrderNotFoundException.class)
     public ResponseEntity<Object> handleOrderNotFoundException(OrderNotFoundException exception) {
         return new ResponseEntity<>("The order you are looking for does not exist. Error:" + exception, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException exception) {
+        return new ResponseEntity<>("Product with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UserNotFoundException.class)

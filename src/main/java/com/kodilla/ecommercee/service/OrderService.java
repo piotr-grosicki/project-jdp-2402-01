@@ -29,7 +29,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrderFromCart(final Long cartId) throws CartNotFoundException {
+    public void createOrderFromCart(final Long cartId) throws CartNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
                 .orElseThrow(CartNotFoundException::new);
 
@@ -39,7 +39,7 @@ public class OrderService {
         order.setActive(true);
         cart.setActive(false);
         cartRepository.save(cart);
-        return orderRepository.save(order);
+        orderRepository.save(order);
     }
 
     public Order updateOrder(Long orderId, Order order) throws OrderNotFoundException {

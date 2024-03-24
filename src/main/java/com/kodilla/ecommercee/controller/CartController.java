@@ -56,5 +56,4 @@ public class CartController {
         Cart cart = cartService.deleteProductFromCart(cartId, product);
         return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
-
 }
