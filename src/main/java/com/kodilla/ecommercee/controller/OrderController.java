@@ -31,7 +31,11 @@ public class OrderController {
         return ResponseEntity.ok(orderMapper.mapToOrderDto(orderService.getOrderById(orderId)));
     }
 
-    // POST createOrderFromCart() is in package com.kodilla.ecommercee.controller.CartController
+    @PostMapping("/order/{cartId}")
+    public ResponseEntity<Void> createOrderFromCart(@PathVariable Long cartId) throws CartNotFoundException {
+        cartService.createOrderFromCart(cartId);
+        return ResponseEntity.ok().build();
+    }
 
     @PutMapping(value = "{orderId}")
     public ResponseEntity<OrderDto> updateOrder(@PathVariable("orderId") Long orderId,

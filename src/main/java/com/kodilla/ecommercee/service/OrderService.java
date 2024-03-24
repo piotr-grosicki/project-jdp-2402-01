@@ -1,8 +1,10 @@
 package com.kodilla.ecommercee.service;
 
+import com.kodilla.ecommercee.domain.Cart;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.exception.OrderNotFoundException;
 import com.kodilla.ecommercee.repository.OrderRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +25,19 @@ public class OrderService {
                 orElseThrow(OrderNotFoundException::new);
     }
 
-    // saveOrder - createOrderFromCart() is in package com.kodilla.ecommercee.service.CartService
+    @Transactional
+    public Order createOrderFromCart(final Long cartId) throws CartNotFoundException {
+        Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
+                .orElseThrow(CartNotFoundException::new);
+
+        Order order = new Order();
+        order.setUser(cart.getUser());
+        order.setProducts(cart.getProducts());
+        order.setActive(true);
+        cart.setActive(false);
+        cartRepository.save(cart);
+        return orderRepository.save(order);
+    }
 
     public Order updateOrder(Long orderId, Order order) throws OrderNotFoundException {
         Order updatedOrder = this.getOrderById(orderId);
