@@ -6,18 +6,16 @@ import com.kodilla.ecommercee.domain.UserDto;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Builder;
 import org.springframework.stereotype.Component;
 import com.kodilla.ecommercee.domain.Cart;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
-
-
 @Component
 @AllArgsConstructor
+@Builder
 public class UserMapper {
 
     private final CartRepository cartRepository;
@@ -44,7 +42,27 @@ public class UserMapper {
         );
     }
 
+    public List<UserDto> mapToUserDtoList(List<User> users) {
+        List<UserDto> userDtoList = users.stream()
+                .map(this::mapToUserDto)
+                .toList();
+        return userDtoList;
+    }
 
+    public User mapToUser(UserDto userDto) {
+        List<Cart> carts = cartRepository.findAllById(userDto.getCartIds());
+        List<Order> orders = orderRepository.findAllById(userDto.getOrderIds());
 
+        User user = new User();
+        user.setId(userDto.getId());
+        user.setUsername(userDto.getUsername());
+        user.setBlocked(userDto.isBlocked());
+        user.setPassword(userDto.getPassword());
+        user.setApiKey(userDto.getApiKey());
+        user.setActive(userDto.isActive());
+        user.setCarts(carts);
+        user.setOrders(orders);
 
+        return user;
+    }
 }
