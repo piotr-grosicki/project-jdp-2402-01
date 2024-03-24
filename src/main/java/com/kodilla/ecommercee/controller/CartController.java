@@ -35,13 +35,13 @@ public class CartController {
         cartService.addCart(cart);
         return ResponseEntity.ok().build();
     }
-/*
+
      @PutMapping("/add/{cartId}/{productId}")
     public ResponseEntity<CartDto> addProductToCart(@PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartService.addProductToCart(cartId, productId);
         return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
-*/
+
     @DeleteMapping("/delete/{cartId}/{productId}")
     public ResponseEntity<CartDto> removeProductFromCart(@PathVariable Long cartId, @PathVariable Long productId) throws CartNotFoundException, ProductNotFoundException {
         Product product = cartService.getProductFromCart(cartId, productId);
