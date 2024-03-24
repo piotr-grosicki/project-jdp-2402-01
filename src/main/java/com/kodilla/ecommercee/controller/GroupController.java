@@ -1,52 +1,52 @@
 package com.kodilla.ecommercee.controller;
 
+import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.GroupDto;
+import com.kodilla.ecommercee.exception.GroupNotFoundException;
+import com.kodilla.ecommercee.mapper.GroupMapper;
+import com.kodilla.ecommercee.service.GroupService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/groups")
+@RequiredArgsConstructor
 public class GroupController {
 
-    private final List<GroupDto> productGroups = new ArrayList<>();
-    private Long nextGroupId = 1L;
+    private final GroupService groupService;
+    private final GroupMapper groupMapper;
 
     @GetMapping
-    public List<GroupDto> getAllGroups() {
-        return productGroups;
+    public ResponseEntity<List<GroupDto>> getAllGroups() {
+        List<Group> groups = groupService.getAllGroups();
+        return ResponseEntity.ok(groupMapper.mapToGroupDtoList(groups));
+    }
+
+    @GetMapping("{groupId}")
+    public ResponseEntity<GroupDto> getGroup(@PathVariable("groupId") Long groupId) throws GroupNotFoundException {
+        return ResponseEntity.ok(groupMapper.mapToGroupDto(groupService.getGroup(groupId)));
     }
 
     @PostMapping
-    public GroupDto addGroup(@RequestBody GroupDto group) {
-        group.setId(nextGroupId);
-        nextGroupId++;
-        productGroups.add(group);
-        return group;
+    public ResponseEntity<Void> createGroup(@RequestBody GroupDto groupDto) {
+        Group group = groupMapper.mapToGroup(groupDto);
+        groupService.saveGroup(group);
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{groupId}")
-    public ResponseEntity<GroupDto> getGroupById(@PathVariable("groupId") Long groupId) {
-        for (GroupDto group : productGroups) {
-            if (group.getId().equals(groupId)) {
-                return ResponseEntity.ok(group);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    @PutMapping
+    public ResponseEntity<GroupDto> updateGroup(@RequestBody GroupDto groupDto) {
+        Group group = groupMapper.mapToGroup(groupDto);
+        Group savedGroup = groupService.saveGroup(group);
+        return ResponseEntity.ok(groupMapper.mapToGroupDto(savedGroup));
     }
 
-    @PutMapping("/{groupId}")
-    public ResponseEntity<GroupDto> updateGroup(@PathVariable("groupId") Long groupId, @RequestBody GroupDto updatedGroup) {
-        for (GroupDto group : productGroups) {
-            if (group.getId().equals(groupId)) {
-                updatedGroup.setId(groupId);
-                productGroups.remove(group);
-                productGroups.add(updatedGroup);
-                return ResponseEntity.ok(updatedGroup);
-            }
-        }
-        return ResponseEntity.notFound().build();
+    @DeleteMapping(value = "{groupId}")
+    public ResponseEntity<Void> deleteGroup(@PathVariable Long groupId) throws GroupNotFoundException {
+        groupService.deleteGroup(groupId);
+        return ResponseEntity.ok().build();
     }
 }
