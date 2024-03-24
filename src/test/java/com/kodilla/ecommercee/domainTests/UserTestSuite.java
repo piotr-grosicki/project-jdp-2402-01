@@ -6,6 +6,7 @@ import com.kodilla.ecommercee.domain.User;
 import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,6 +18,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Transactional
 public class UserTestSuite {
 
     @Autowired
@@ -28,11 +30,17 @@ public class UserTestSuite {
     @Autowired
     private CartRepository cartRepository;
 
+    @AfterEach
+    public void cleanUp() {
+        userRepository.deleteAll();
+        orderRepository.deleteAll();
+        cartRepository.deleteAll();
+    }
+
     @Test
     public void testSaveUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
         //When
@@ -43,15 +51,12 @@ public class UserTestSuite {
         assertEquals("testUsername", retrievedUser.get().getUsername());
         assertEquals("testPassword", retrievedUser.get().getPassword());
 
-        //CleanUp
-        userRepository.deleteAll();
     }
 
     @Test
     public void testUpdateUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
 
         User savedUser = userRepository.save(user);
 
@@ -66,15 +71,12 @@ public class UserTestSuite {
         assertEquals("newUsername", updatedUser.get().getUsername());
         assertEquals("newPassword", updatedUser.get().getPassword());
 
-        //CleanUp
-        userRepository.deleteAll();
     }
 
     @Test
     public void testDeleteUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
         //When
@@ -85,16 +87,12 @@ public class UserTestSuite {
         assertTrue(deactivatedUser.isPresent());
         assertFalse(deactivatedUser.get().isActive());
 
-        //CleanUp
-        userRepository.deleteAll();
     }
 
     @Test
-    @Transactional
     public void testSaveUserWithOrder() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         Order order = new Order();
         order.setUser(user);
         order.setOrderNumber("1");
@@ -108,17 +106,12 @@ public class UserTestSuite {
         assertTrue(retrievedUser.isPresent());
         assertFalse(retrievedUser.get().getOrders().isEmpty());
 
-        //CleanUp
-        orderRepository.deleteAll();
-        userRepository.deleteAll();
     }
 
     @Test
-    @Transactional
     public void testSaveUserWithCart() {
         //Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         Cart cart = new Cart();
         cart.setUser(user);
         user.getCarts().add(cart);
@@ -129,12 +122,8 @@ public class UserTestSuite {
 
         //Then
         assertTrue(retrievedUser.isPresent());
-        assertNotNull(retrievedUser.get());
         assertFalse(retrievedUser.get().getCarts().isEmpty());
+        assertNotNull(retrievedUser.get());
 
-        //CleanUp
-        cartRepository.deleteAll();
-        userRepository.deleteAll();
     }
-
 }

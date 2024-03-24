@@ -3,6 +3,7 @@ package com.kodilla.ecommercee.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class User {
     @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "PASSWORD", unique = true, nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @Column(name ="BLOCKED", nullable = false)
@@ -54,4 +55,7 @@ public class User {
         this.password = password;
         this.apiKey = apiKey;
     }
+
+    @Transient
+    private LocalDateTime apiKeyExpiration;
 }
