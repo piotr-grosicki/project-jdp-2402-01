@@ -21,13 +21,14 @@ import java.util.stream.Collectors;
 public class CartMapper {
 
     private final UserRepository userRepository;
-    private final CartService cartService;
 
     public Cart mapToCart(final CartDto cartDto) throws CartNotFoundException, UserNotFoundException {
         User user = userRepository.findByIdAndActiveTrue(cartDto.getUserId())
                 .orElseThrow(UserNotFoundException::new);
-        List<Product> productsList = cartService.getProductsFromCart(cartDto.getId());
-        return new Cart(cartDto.getId(), user, productsList, cartDto.isActive());
+        Cart cart =  new Cart();
+        cart.setId(cartDto.getId());
+        cart.setUser(user);
+        return cart;
     }
 
     public CartDto mapToCartDto(final Cart cart) {
