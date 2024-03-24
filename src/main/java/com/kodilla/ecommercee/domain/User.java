@@ -22,7 +22,7 @@ public class User {
     @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
 
-    @Column(name = "PASSWORD", unique = true, nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @Column(name ="BLOCKED", nullable = false)
@@ -58,5 +58,4 @@ public class User {
 
     @Transient
     private LocalDateTime apiKeyExpiration;
-
 }
