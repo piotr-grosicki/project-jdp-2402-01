@@ -7,12 +7,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+
+    public List<User> getAllUsers() {
+        return userRepository.findAllByActiveTrue();
+    }
+
+    public User getUserById(final Long orderId) throws UserNotFoundException {
+        return userRepository.findByIdAndActiveTrue(orderId).
+                orElseThrow(UserNotFoundException::new);
+    }
 
     public void createUser(User user){
         userRepository.save(user);

@@ -14,8 +14,7 @@ public class UserDto {
     private boolean blocked;
     private String password;
     private String apiKey;
-    private  List<Long> cartIds;
+    private List<Long> cartIds;
     private List<Long> orderIds;
     private boolean active;
-
 }

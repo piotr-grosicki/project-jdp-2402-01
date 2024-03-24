@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/user")
@@ -19,6 +21,17 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+
+    @GetMapping
+    public ResponseEntity<List<UserDto>> getAllUsers() {
+        List<User> orders = userService.getAllUsers();
+        return ResponseEntity.ok(userMapper.mapToUserDtoList(orders));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Long orderId) throws UserNotFoundException {
+        return ResponseEntity.ok(userMapper.mapToUserDto(userService.getUserById(orderId)));
+    }
 
     @PostMapping("/create")
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) throws FailedToCreateUserException {
@@ -29,6 +42,12 @@ public class UserController {
         } catch (Exception e) {
             throw new FailedToCreateUserException();
         }
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) throws UserNotFoundException {
+        userService.deleteUser(userId);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/block/{userId}")
@@ -53,11 +72,5 @@ public class UserController {
         } catch (Exception e) {
             throw new FailedToGenerateApiKeyException();
         }
-    }
-
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long userId) throws UserNotFoundException {
-        userService.deleteUser(userId);
-        return ResponseEntity.ok().build();
     }
 }

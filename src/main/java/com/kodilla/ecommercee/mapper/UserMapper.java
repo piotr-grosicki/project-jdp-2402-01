@@ -12,9 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.kodilla.ecommercee.domain.Cart;
+
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 
 @Component
@@ -45,7 +45,18 @@ public class UserMapper {
                 user.isActive()
         );
     }
+
+    public List<UserDto> mapToUserDtoList(List<User> users) {
+        List<UserDto> userDtoList = users.stream()
+                .map(this::mapToUserDto)
+                .toList();
+        return userDtoList;
+    }
+
     public User mapToUser(UserDto userDto) {
+        List<Cart> carts = cartRepository.findAllById(userDto.getCartIds());
+        List<Order> orders = orderRepository.findAllById(userDto.getOrderIds());
+
         User user = new User();
         user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
@@ -53,25 +64,8 @@ public class UserMapper {
         user.setPassword(userDto.getPassword());
         user.setApiKey(userDto.getApiKey());
         user.setActive(userDto.isActive());
-
-        if (userDto.getCartIds() != null) {
-            try {
-                List<Cart> carts = cartRepository.findAllById(userDto.getCartIds());
-                user.setCarts(carts);
-            } catch (Exception ex) {
-
-                throw new RuntimeException("Error while retrieving user carts", ex);
-            }
-        }
-        if (userDto.getOrderIds() != null) {
-            try {
-                List<Order> orders = orderRepository.findAllById(userDto.getOrderIds());
-                user.setOrders(orders);
-            } catch (Exception ex) {
-
-                throw new RuntimeException("Error while retrieving user orders", ex);
-            }
-        }
+        user.setCarts(carts);
+        user.setOrders(orders);
 
         return user;
     }
