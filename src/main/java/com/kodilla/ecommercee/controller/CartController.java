@@ -18,14 +18,19 @@ public class CartController {
 
     private final CartMapper cartMapper;
     private final CartService cartService;
-
-
+    private final ProductMapper productMapper;
 
 
     @GetMapping("/{cartId}")
     public ResponseEntity<CartDto> getCartById(@PathVariable Long cartId) throws CartNotFoundException {
         Cart cart = cartService.getCart(cartId);
         return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
+    }
+
+    @GetMapping("/products/{cartId}")
+    public ResponseEntity<List<ProductDto>> getProductsFromCart(@PathVariable Long cartId) throws CartNotFoundException {
+        List<Product> products = cartService.getProductsFromCart(cartId);
+        return ResponseEntity.ok(productMapper.mapToProductDtoList(products));
     }
 
     @PostMapping
@@ -49,9 +54,4 @@ public class CartController {
         return ResponseEntity.ok(cartMapper.mapToCartDto(cart));
     }
 
-    @PostMapping("/order/{cartId}")
-    public ResponseEntity<Void> createOrderFromCart(@PathVariable Long cartId) throws CartNotFoundException {
-        cartService.createOrderFromCart(cartId);
-        return ResponseEntity.ok().build();
-    }
 }
