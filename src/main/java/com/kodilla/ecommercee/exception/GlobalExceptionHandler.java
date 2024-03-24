@@ -11,12 +11,31 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
     public ResponseEntity<Object> handleProductNotFoundException(ProductNotFoundException exception) {
-        return new ResponseEntity<>("Product with given Id does not exist", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Product with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(GroupNotFoundException.class)
     public ResponseEntity<Object> handleGroupNotFoundException(GroupNotFoundException exception) {
-        return new ResponseEntity<>("Group with given Id does not exist", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Group with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException exception) {
+        return new ResponseEntity<>("User with given Id does not exist: " + exception, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(FailedToCreateUserException.class)
+    public ResponseEntity<Object> handleFailedToCreateUserException(FailedToCreateUserException exception) {
+        return new ResponseEntity<>("Failed to create user: " + exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FailedToBlockUserException.class)
+    public ResponseEntity<Object> handleFailedToBlockUserException(FailedToBlockUserException exception) {
+        return new ResponseEntity<>("Failed to block user: " + exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FailedToGenerateApiKeyException.class)
+    public ResponseEntity<Object> handleFailedToGenerateApiKeyException(FailedToGenerateApiKeyException exception) {
+        return new ResponseEntity<>("Failed to generate API key: " + exception, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

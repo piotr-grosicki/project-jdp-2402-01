@@ -40,8 +40,7 @@ public class UserTestSuite {
     @Test
     public void testSaveUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
         //When
@@ -57,8 +56,7 @@ public class UserTestSuite {
     @Test
     public void testUpdateUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
 
         User savedUser = userRepository.save(user);
 
@@ -78,8 +76,7 @@ public class UserTestSuite {
     @Test
     public void testDeleteUser() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
         //When
@@ -95,8 +92,7 @@ public class UserTestSuite {
     @Test
     public void testSaveUserWithOrder() {
         // Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         Order order = new Order();
         order.setUser(user);
         order.setOrderNumber("1");
@@ -115,8 +111,7 @@ public class UserTestSuite {
     @Test
     public void testSaveUserWithCart() {
         //Given
-        User user = new User(null, "testUsername", "testPassword",
-                false, "testApiKey", new ArrayList<>(), new ArrayList<>(), true);
+        User user = new User("testUsername", "testPassword", "testApiKey");
         Cart cart = new Cart();
         cart.setUser(user);
         user.getCarts().add(cart);
