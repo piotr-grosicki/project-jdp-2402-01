@@ -21,7 +21,6 @@ import java.util.UUID;
 public class CartService {
 
     private final CartRepository cartRepository;
-    private final OrderRepository orderRepository;
     private final ProductService productService;
     
     public Cart addCart(final Cart cart) {
@@ -64,17 +63,5 @@ public class CartService {
         cart.getProducts().remove(product);
         return cartRepository.save(cart);
     }
-    @Transactional
-    public Order createOrderFromCart(final Long cartId) throws CartNotFoundException {
-        Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(CartNotFoundException::new);
-
-        Order order = new Order();
-        order.setUser(cart.getUser());
-        order.setProducts(cart.getProducts());
-        order.setActive(true);
-        cart.setActive(false);
-        cartRepository.save(cart);
-        return orderRepository.save(order);
-    }
+   
 }
