@@ -23,6 +23,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
     private final ProductService productService;
+    
     public Cart addCart(final Cart cart) {
         return cartRepository.save(cart);
     }
@@ -30,12 +31,6 @@ public class CartService {
     public Cart getCart(final Long cartId) throws CartNotFoundException {
         return cartRepository.findByIdAndActiveTrue(cartId)
                 .orElseThrow(CartNotFoundException::new);
-    }
-
-    public List<Product> getProductsFromCart(final Long cartId) throws CartNotFoundException {
-        List<Product> productsList = cartRepository.findByIdAndActiveTrue(cartId).map(Cart::getProducts)
-                .orElseThrow(CartNotFoundException::new);
-        return productsList;
     }
 
     public Cart addProductToCart(final Long cartId, final Long productId) throws CartNotFoundException, ProductNotFoundException {
