@@ -33,6 +33,12 @@ public class CartService {
                 .orElseThrow(CartNotFoundException::new);
     }
 
+    public List<Product> getProductsFromCart(final Long cartId) throws CartNotFoundException {
+        List<Product> productsList = cartRepository.findByIdAndActiveTrue(cartId).filter(obj -> true).map(Cart::getProducts)
+                .orElseThrow(CartNotFoundException::new);
+        return productsList;
+    }
+
     public Cart addProductToCart(final Long cartId, final Long productId) throws CartNotFoundException, ProductNotFoundException {
         Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
                 .orElseThrow(CartNotFoundException::new);
