@@ -7,15 +7,11 @@ import com.kodilla.ecommercee.repository.CartRepository;
 import com.kodilla.ecommercee.repository.OrderRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.kodilla.ecommercee.domain.Cart;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Component
 @AllArgsConstructor
