@@ -5,11 +5,14 @@ import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.ProductNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.mapper.CartMapper;
+import com.kodilla.ecommercee.mapper.ProductMapper;
 import com.kodilla.ecommercee.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/carts")
