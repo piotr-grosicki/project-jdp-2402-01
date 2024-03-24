@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.findAll();
    }
    public void deleteUser(final Long userId) throws UserNotFoundException{
-        userRepository.delete(userRepository.findAllByIdAndActiveTrue(userId)
+        userRepository.delete(userRepository.findByIdAndActiveTrue(userId)
                 .orElseThrow(UserNotFoundException::new));
    }
 
