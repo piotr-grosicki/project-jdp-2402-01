@@ -15,13 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderMapper {
 
-    OrderService orderService;
+    public final OrderService orderService;
 
     public OrderDto mapToOrderDto(Order order) {
         List<Long> orderProductsIds = order.getProducts().stream()
                 .map(Product::getId)
                 .toList();
-        return new OrderDto(order.getId(),
+        return new OrderDto(
+                order.getId(),
                 order.getOrderNumber(),
                 order.getUser().getId(),
                 orderProductsIds,
