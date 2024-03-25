@@ -26,9 +26,7 @@ public class GroupMapper {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList());
-
         group.setActive(groupDto.isActive());
-
         return group;
     }
 
@@ -41,16 +39,11 @@ public class GroupMapper {
                 .filter(Product::isActive)
                 .map(Product::getId)
                 .toList());
-
         groupDto.setActive(group.isActive());
-
         return groupDto;
     }
 
     public List<GroupDto> mapToGroupDtoList(final List<Group> groupList) {
-        return groupList.stream()
-                .map(this::mapToGroupDto)
-                .toList();
+        return groupList.stream().map(this::mapToGroupDto).toList();
     }
-
 }

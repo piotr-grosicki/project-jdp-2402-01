@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,18 +25,17 @@ public class OrderService {
     }
 
     public Order getOrderById(final Long orderId) throws OrderNotFoundException {
-        return orderRepository.findByIdAndActiveTrue(orderId).
-                orElseThrow(OrderNotFoundException::new);
+        return orderRepository.findByIdAndActiveTrue(orderId)
+                .orElseThrow(OrderNotFoundException::new);
     }
 
     @Transactional
     public void createOrderFromCart(final Long cartId) throws CartNotFoundException {
-        Cart cart = cartRepository.findByIdAndActiveTrue(cartId)
-                .orElseThrow(CartNotFoundException::new);
-
+        Cart cart = cartRepository.findByIdAndActiveTrue(cartId).orElseThrow(CartNotFoundException::new);
         Order order = new Order();
+        order.setOrderNumber("order/" + cart.getId());
         order.setUser(cart.getUser());
-        order.setProducts(cart.getProducts());
+        order.setProducts(new ArrayList<>(cart.getProducts()));
         order.setActive(true);
         cart.setActive(false);
         cartRepository.save(cart);

@@ -17,7 +17,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID", unique = true)
-    private  Long id;
+    private Long id;
 
     @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
@@ -25,7 +25,7 @@ public class User {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @Column(name ="BLOCKED", nullable = false)
+    @Column(name = "BLOCKED", nullable = false)
     private boolean blocked = false;
 
     @Column(name = "API_KEY")
@@ -47,7 +47,7 @@ public class User {
     )
     private List<Order> orders = new ArrayList<>();
 
-    @Column(name = "ACTIVE",  nullable = false)
+    @Column(name = "ACTIVE", nullable = false)
     private boolean active = true;
 
     public User(String username, String password, String apiKey) {

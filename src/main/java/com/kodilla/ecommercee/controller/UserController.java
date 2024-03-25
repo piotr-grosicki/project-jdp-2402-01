@@ -16,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
@@ -33,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(userMapper.mapToUserDto(userService.getUserById(orderId)));
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<Void> createUser(@RequestBody UserDto userDto) throws FailedToCreateUserException {
         try {
             User user = userMapper.mapToUser(userDto);

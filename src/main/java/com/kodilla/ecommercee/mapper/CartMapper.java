@@ -8,11 +8,8 @@ import com.kodilla.ecommercee.exception.CartNotFoundException;
 import com.kodilla.ecommercee.exception.UserNotFoundException;
 import com.kodilla.ecommercee.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
@@ -24,7 +21,7 @@ public class CartMapper {
     public Cart mapToCart(final CartDto cartDto) throws CartNotFoundException, UserNotFoundException {
         User user = userRepository.findByIdAndActiveTrue(cartDto.getUserId())
                 .orElseThrow(UserNotFoundException::new);
-        Cart cart =  new Cart();
+        Cart cart = new Cart();
         cart.setId(cartDto.getId());
         cart.setUser(user);
         return cart;

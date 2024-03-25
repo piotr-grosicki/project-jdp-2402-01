@@ -22,8 +22,8 @@ public class ProductMapper {
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setActive(productDto.isActive());
-        product.setGroup(groupRepository.findByIdAndActiveTrue(productDto.getGroupId()).orElseThrow(GroupNotFoundException::new));
-
+        product.setGroup(groupRepository.findByIdAndActiveTrue(productDto.getGroupId())
+                .orElseThrow(GroupNotFoundException::new));
         return product;
     }
 
@@ -35,7 +35,6 @@ public class ProductMapper {
         productDto.setPrice(product.getPrice());
         productDto.setActive(product.isActive());
         productDto.setGroupId(product.getGroup().getId());
-
         return productDto;
     }
 
@@ -44,5 +43,4 @@ public class ProductMapper {
                 .map(this::mapToProductDto)
                 .toList();
     }
-
 }

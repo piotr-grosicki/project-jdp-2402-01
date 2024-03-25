@@ -26,7 +26,8 @@ public class GroupController {
     }
 
     @GetMapping("{groupId}")
-    public ResponseEntity<GroupDto> getGroup(@PathVariable("groupId") Long groupId) throws GroupNotFoundException {
+    public ResponseEntity<GroupDto> getGroup(@PathVariable("groupId") Long groupId)
+            throws GroupNotFoundException {
         return ResponseEntity.ok(groupMapper.mapToGroupDto(groupService.getGroup(groupId)));
     }
 
