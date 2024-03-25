@@ -17,34 +17,30 @@ public class GroupMapper {
     private final ProductRepository productRepository;
 
     public Group mapToGroup(final GroupDto groupDto) {
-        Group group = new Group();
-        group.setId(groupDto.getId());
-        group.setName(groupDto.getName());
-        group.setDescription(groupDto.getDescription());
-        group.setProducts(groupDto.getProductsIds().stream()
+        List<Product> groupProductsList = groupDto.getProductsIds().stream()
                 .map(productRepository::findByIdAndActiveTrue)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
-                .toList());
-
-        group.setActive(groupDto.isActive());
-
-        return group;
+                .toList();
+        return new Group(
+                groupDto.getId(),
+                groupDto.getName(),
+                groupDto.getDescription(),
+                groupProductsList,
+                groupDto.isActive());
     }
 
     public GroupDto mapToGroupDto(final Group group) {
-        GroupDto groupDto = new GroupDto();
-        groupDto.setId(group.getId());
-        groupDto.setName(group.getName());
-        groupDto.setDescription(group.getDescription());
-        groupDto.setProductsIds(group.getProducts().stream()
+        List<Long> groupProductsIds = group.getProducts().stream()
                 .filter(Product::isActive)
                 .map(Product::getId)
-                .toList());
-
-        groupDto.setActive(group.isActive());
-
-        return groupDto;
+                .toList();
+        return new GroupDto(
+                group.getId(),
+                group.getName(),
+                group.getDescription(),
+                groupProductsIds,
+                group.isActive());
     }
 
     public List<GroupDto> mapToGroupDtoList(final List<Group> groupList) {
@@ -52,5 +48,4 @@ public class GroupMapper {
                 .map(this::mapToGroupDto)
                 .toList();
     }
-
 }

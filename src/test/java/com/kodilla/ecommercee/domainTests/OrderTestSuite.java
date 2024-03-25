@@ -37,7 +37,7 @@ public class OrderTestSuite {
     @Autowired
     private GroupRepository groupRepository;
 
-    User user = new User( "Username", "Password", "abcabc");
+    User user = new User("Username", "Password", "abcabc");
 
     @AfterEach
     public void cleanUp() {
@@ -51,24 +51,23 @@ public class OrderTestSuite {
     public void testSaveOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order("Order-1", user);
+        Order order = new Order("order1", user);
 
         //When
         Order savedOrder = orderRepository.save(order);
 
         //Then
         assertTrue(savedOrder.isActive());
-        assertEquals("Order-1", savedOrder.getOrderNumber());
+        assertEquals(order.getOrderNumber(), savedOrder.getOrderNumber());
         assertNotNull(savedOrder.getId());
         assertEquals(user.getId(), savedOrder.getUser().getId());
-
     }
 
     @Test
     public void testFindOrderById() {
         //Given
         userRepository.save(user);
-        Order order = new Order("Order-1", user);
+        Order order = new Order("order1", user);
         orderRepository.save(order);
 
         //When
@@ -76,7 +75,7 @@ public class OrderTestSuite {
 
         //Then
         assertTrue(retrievedOrder.isPresent());
-        assertEquals("Order-1", retrievedOrder.get().getOrderNumber());
+        assertEquals(order.getOrderNumber(), retrievedOrder.get().getOrderNumber());
         assertEquals(order.getId(), retrievedOrder.get().getId());
         assertEquals(user.getId(), retrievedOrder.get().getUser().getId());
     }
@@ -85,18 +84,18 @@ public class OrderTestSuite {
     public void testUpdateOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order("Order-1", user);
+        Order order = new Order("order1", user);
         orderRepository.save(order);
 
         //When
-        order.setOrderNumber("Order-3");
+        order.setOrderNumber("order3");
         orderRepository.save(order);
         Optional<Order> retrievedOrder = orderRepository.findById(order.getId());
 
         //Then
         assertTrue(retrievedOrder.isPresent());
         assertEquals(order.getId(), retrievedOrder.get().getId());
-        assertEquals("Order-3", retrievedOrder.get().getOrderNumber());
+        assertEquals(order.getOrderNumber(), retrievedOrder.get().getOrderNumber());
         assertEquals(user.getId(), retrievedOrder.get().getUser().getId());
     }
 
@@ -104,7 +103,7 @@ public class OrderTestSuite {
     public void testDeleteOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order("Order-1", user);
+        Order order = new Order("order1", user);
         orderRepository.save(order);
 
         //When
@@ -121,9 +120,9 @@ public class OrderTestSuite {
     public void testFindAllByActiveTrue() {
         //Given
         userRepository.save(user);
-        Order activeOrder = new Order("Order-1", user);
+        Order activeOrder = new Order("order1", user);
         orderRepository.save(activeOrder);
-        Order inactiveOrder = new Order("Order-2", user);
+        Order inactiveOrder = new Order("order2", user);
         inactiveOrder.setActive(false);
         orderRepository.save(inactiveOrder);
 
@@ -137,10 +136,10 @@ public class OrderTestSuite {
     }
 
     @Test
-    public void testAddProductsToOrder(){
+    public void testAddProductsToOrder() {
         //Given
         userRepository.save(user);
-        Order order = new Order("Order-1", user);
+        Order order = new Order("order1", user);
         Group group = new Group("food", "things to eat");
         groupRepository.save(group);
         Product pistachios = new Product("Pistachios", "200g bag", BigDecimal.valueOf(38.99), group);
@@ -161,4 +160,3 @@ public class OrderTestSuite {
         assertEquals(2, retrievedOrder.get().getProducts().size());
     }
 }
-

@@ -4,7 +4,6 @@ import com.kodilla.ecommercee.domain.*;
 import com.kodilla.ecommercee.repository.*;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,10 +14,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 @SpringBootTest
 @Transactional
-@DisplayName("Cart Entity Test Suite")
 public class CartTestSuite {
 
     @Autowired
@@ -33,7 +30,7 @@ public class CartTestSuite {
     @Autowired
     private GroupRepository groupRepository;
 
-    User user = new User( "Someone", "password123","blahblah");
+    User user = new User("Someone", "password123", "blahblah");
     Group group = new Group("food", "things to eat");
 
     @AfterEach
@@ -142,7 +139,4 @@ public class CartTestSuite {
         assertFalse(retrievedCart.get().getProducts().contains(pistachios));
         assertEquals(1, retrievedCart.get().getProducts().size());
     }
-
 }
-
-

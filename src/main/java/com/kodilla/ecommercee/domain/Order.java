@@ -33,7 +33,7 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    @Column(name = "ACTIVE",  nullable = false)
+    @Column(name = "ACTIVE", nullable = false)
     private boolean active = true;
 
     public Order(String orderNumber, User user) {

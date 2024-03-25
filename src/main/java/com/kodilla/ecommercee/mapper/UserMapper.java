@@ -25,11 +25,9 @@ public class UserMapper {
         List<Long> cartIds = user.getCarts().stream()
                 .map(Cart::getId)
                 .collect(Collectors.toList());
-
         List<Long> orderIds = user.getOrders().stream()
                 .map(Order::getId)
                 .collect(Collectors.toList());
-
         return new UserDto(
                 user.getId(),
                 user.getUsername(),
@@ -38,8 +36,7 @@ public class UserMapper {
                 user.getApiKey(),
                 cartIds,
                 orderIds,
-                user.isActive()
-        );
+                user.isActive());
     }
 
     public List<UserDto> mapToUserDtoList(List<User> users) {
@@ -52,7 +49,6 @@ public class UserMapper {
     public User mapToUser(UserDto userDto) {
         List<Cart> carts = cartRepository.findAllById(userDto.getCartIds());
         List<Order> orders = orderRepository.findAllById(userDto.getOrderIds());
-
         User user = new User();
         user.setId(userDto.getId());
         user.setUsername(userDto.getUsername());
@@ -62,7 +58,6 @@ public class UserMapper {
         user.setActive(userDto.isActive());
         user.setCarts(carts);
         user.setOrders(orders);
-
         return user;
     }
 }

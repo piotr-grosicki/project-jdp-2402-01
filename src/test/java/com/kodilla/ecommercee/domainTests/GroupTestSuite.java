@@ -76,7 +76,7 @@ public class GroupTestSuite {
         Group groupTwo = new Group();
         groupTwo.setName("groupTwo");
         groupTwo.setDescription("descGroupTwo");
-      
+
         groupRepository.save(groupOne);
         groupRepository.save(groupTwo);
 
@@ -93,7 +93,7 @@ public class GroupTestSuite {
         Group groupTwo = new Group();
         groupTwo.setName("groupTwo");
         groupTwo.setDescription("descGroupTwo");
-      
+
         groupRepository.save(groupOne);
         groupRepository.save(groupTwo);
 

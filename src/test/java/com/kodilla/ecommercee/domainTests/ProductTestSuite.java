@@ -5,44 +5,46 @@ import com.kodilla.ecommercee.domain.Group;
 import com.kodilla.ecommercee.domain.Order;
 import com.kodilla.ecommercee.domain.Product;
 import com.kodilla.ecommercee.repository.GroupRepository;
-import com.kodilla.ecommercee.repository.OrderRepository;
 import com.kodilla.ecommercee.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @Transactional
 @SpringBootTest
 public class ProductTestSuite {
+
     @Autowired
     ProductRepository productRepository;
+
     @Autowired
     GroupRepository groupRepository;
+
     @AfterEach
-    public void cleanup() {
+    public void cleanUp() {
         productRepository.deleteAll();
         groupRepository.deleteAll();
     }
+
     Group group = new Group("Test Group", "Test Description");
     Product product = new Product("Test Product", "Test Description", BigDecimal.valueOf(10.00), group);
 
     @Test
     public void testAddProductToDatabase() {
-        // Given
+        //Given
         Group savedGroup = groupRepository.save(group);
         Product savedProduct = productRepository.save(product);
-        product.setCarts(Arrays.asList(new Cart()));
-        product.setOrders(Arrays.asList(new Order()));
+        product.setCarts(List.of(new Cart()));
+        product.setOrders(List.of(new Order()));
+
         //When & Then
         assertNotNull(savedGroup);
         assertEquals("Test Product", savedProduct.getName());
@@ -53,16 +55,17 @@ public class ProductTestSuite {
         assertEquals(1, savedProduct.getOrders().size());
         assertTrue(savedProduct.isActive());
     }
+
     @Test
     public void testFindProductById() {
-    // Given
-         groupRepository.save(group);
-         productRepository.save(product);
+        //Given
+        groupRepository.save(group);
+        productRepository.save(product);
 
-    // When
+        //When
         Product retrievedProduct = productRepository.findById(product.getId()).orElse(null);
 
-    // Then
+        //Then
         assertNotNull(retrievedProduct);
         assertEquals(product.getId(), retrievedProduct.getId());
         assertEquals("Test Product", retrievedProduct.getName());
@@ -70,45 +73,47 @@ public class ProductTestSuite {
         assertEquals(BigDecimal.valueOf(10.00), retrievedProduct.getPrice());
         assertTrue(retrievedProduct.isActive());
     }
+
     @Test
     public void testDeleteProduct() {
-        // Given
+        //Given
         groupRepository.save(group);
         productRepository.save(product);
 
-        // When
+        //When
         productRepository.delete(product);
-
-        // Then
         Optional<Product> deletedProductOptional = productRepository.findById(product.getId());
-        Assertions.assertTrue(deletedProductOptional.isPresent());
-        Assertions.assertFalse(deletedProductOptional.get().isActive());
+
+        //Then
+        assertTrue(deletedProductOptional.isPresent());
+        assertFalse(deletedProductOptional.get().isActive());
     }
+
     @Test
     public void testUpdateProduct() {
-    // Given
+        //Given
         groupRepository.save(group);
         productRepository.save(product);
         Product savedProduct = productRepository.findById(product.getId()).get();
 
-    // When
+        //When
         savedProduct.setName("Updated Product Name");
         savedProduct.setDescription("Updated Description");
         savedProduct.setPrice(BigDecimal.valueOf(20.00));
         Product updatedProduct = productRepository.findById(savedProduct.getId()).get();
 
-    // Then
+        //Then
         assertNotNull(updatedProduct);
         assertEquals(savedProduct.getId(), updatedProduct.getId());
         assertEquals("Updated Product Name", updatedProduct.getName());
         assertEquals("Updated Description", updatedProduct.getDescription());
         assertEquals(BigDecimal.valueOf(20.00), updatedProduct.getPrice());
         assertTrue(updatedProduct.isActive());
-
 }
+
     @Test
     public void testFindAllActiveProducts() {
-    // Given
+        //Given
         groupRepository.save(group);
         Product product1 = new Product("Active Product 1","Test Description 1",BigDecimal.valueOf(15.00),group);
         productRepository.save(product1);
@@ -117,16 +122,14 @@ public class ProductTestSuite {
         product2.setActive(false);
         productRepository.save(product2);
 
-    // When
+        //When
         List<Product> activeProducts = productRepository.findAllByActiveTrue();
 
-    // Then
+        //Then
         assertEquals(1, activeProducts.size());
-        assertEquals("Active Product 1", activeProducts.get(0).getName());
+        assertEquals(product1.getName(), activeProducts.get(0).getName());
         assertEquals(2, productRepository.findAll().size());
-        assertFalse(activeProducts.contains(product2));
         assertTrue(activeProducts.contains(product1));
+        assertFalse(activeProducts.contains(product2));
     }
-
-
 }

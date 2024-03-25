@@ -19,8 +19,8 @@ public class GroupService {
     }
 
     public Group getGroup(final Long groupId) throws GroupNotFoundException {
-        return groupRepository.findByIdAndActiveTrue(groupId).
-                orElseThrow(GroupNotFoundException::new);
+        return groupRepository.findByIdAndActiveTrue(groupId)
+                .orElseThrow(GroupNotFoundException::new);
     }
 
     public Group saveGroup(final Group group) {
@@ -28,8 +28,7 @@ public class GroupService {
     }
 
     public void deleteGroup(final Long groupId) throws GroupNotFoundException {
-        groupRepository.delete(groupRepository.findByIdAndActiveTrue(groupId).
-                orElseThrow(GroupNotFoundException::new));
+        groupRepository.delete(groupRepository.findByIdAndActiveTrue(groupId)
+                .orElseThrow(GroupNotFoundException::new));
     }
-
 }

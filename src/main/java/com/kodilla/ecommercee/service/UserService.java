@@ -24,11 +24,11 @@ public class UserService {
                 orElseThrow(UserNotFoundException::new);
     }
 
-    public void createUser(User user){
+    public void createUser(User user) {
         userRepository.save(user);
     }
 
-    public void deleteUser(final Long userId) throws UserNotFoundException{
+    public void deleteUser(final Long userId) throws UserNotFoundException {
         userRepository.delete(userRepository.findByIdAndActiveTrue(userId)
                 .orElseThrow(UserNotFoundException::new));
     }
@@ -45,7 +45,7 @@ public class UserService {
                 .orElseThrow(UserNotFoundException::new);
         // Sprawdzam czy klucz został wygenerowany w ciągu ostatniej godziny
         if (user.getApiKey() != null && user.getApiKeyExpiration() != null
-                && LocalDateTime.now().isBefore(user.getApiKeyExpiration())) {
+            && LocalDateTime.now().isBefore(user.getApiKeyExpiration())) {
             return "API key has already been generated and is still valid.";
         }
         String newApiKey = UUID.randomUUID().toString();

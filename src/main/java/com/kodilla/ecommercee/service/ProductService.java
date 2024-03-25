@@ -30,5 +30,4 @@ public class ProductService {
             productRepository.delete(productRepository.findByIdAndActiveTrue(productId).
                     orElseThrow(ProductNotFoundException::new));
     }
-
 }

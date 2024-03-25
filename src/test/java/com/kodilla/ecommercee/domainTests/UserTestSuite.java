@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,7 +38,7 @@ public class UserTestSuite {
 
     @Test
     public void testSaveUser() {
-        // Given
+        //Given
         User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
@@ -50,14 +49,12 @@ public class UserTestSuite {
         assertTrue(retrievedUser.isPresent());
         assertEquals("testUsername", retrievedUser.get().getUsername());
         assertEquals("testPassword", retrievedUser.get().getPassword());
-
     }
 
     @Test
     public void testUpdateUser() {
         // Given
         User user = new User("testUsername", "testPassword", "testApiKey");
-
         User savedUser = userRepository.save(user);
 
         //When
@@ -70,12 +67,11 @@ public class UserTestSuite {
         assertTrue(updatedUser.isPresent());
         assertEquals("newUsername", updatedUser.get().getUsername());
         assertEquals("newPassword", updatedUser.get().getPassword());
-
     }
 
     @Test
     public void testDeleteUser() {
-        // Given
+        //Given
         User user = new User("testUsername", "testPassword", "testApiKey");
         User savedUser = userRepository.save(user);
 
@@ -86,26 +82,24 @@ public class UserTestSuite {
         //Then
         assertTrue(deactivatedUser.isPresent());
         assertFalse(deactivatedUser.get().isActive());
-
     }
 
     @Test
     public void testSaveUserWithOrder() {
-        // Given
+        //Given
         User user = new User("testUsername", "testPassword", "testApiKey");
         Order order = new Order();
         order.setUser(user);
-        order.setOrderNumber("1");
+        order.setOrderNumber("testOrder");
         user.getOrders().add(order);
 
-        // When
+        //When
         User savedUser = userRepository.save(user);
         Optional<User> retrievedUser = userRepository.findById(savedUser.getId());
 
-        // Then
+        //Then
         assertTrue(retrievedUser.isPresent());
         assertFalse(retrievedUser.get().getOrders().isEmpty());
-
     }
 
     @Test
@@ -124,6 +118,5 @@ public class UserTestSuite {
         assertTrue(retrievedUser.isPresent());
         assertFalse(retrievedUser.get().getCarts().isEmpty());
         assertNotNull(retrievedUser.get());
-
     }
 }
